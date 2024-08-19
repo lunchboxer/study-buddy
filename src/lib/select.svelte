@@ -1,20 +1,20 @@
 <script>
-  import { page } from '$app/stores'
-  import { toSnakeCase } from '$lib/utils'
+import { page } from '$app/stores'
+import { toSnakeCase } from '$lib/utils'
 
-  export let label = ''
-  export let name = ''
-  export let description = ''
-  export let selected = ''
+export let label = ''
+export let name = ''
+export let description = ''
+export let selected = ''
 
-  const id = name || toSnakeCase(label)
-  const descriptionId = `description-${id}`
+const id = name || toSnakeCase(label)
+const descriptionId = `description-${id}`
 
-  export let required = false
-  export let error = ''
-  export let data = {}
-  export let value = $page?.form?.[id] ?? data?.[id] ?? ''
-  export let options = []
+export let required = false
+export let error = ''
+export let data = {}
+export let value = $page?.form?.[id] ?? data?.[id] ?? ''
+export let options = []
 </script>
 
 <label for={id} class="form-control w-full max-w-md mb-4">

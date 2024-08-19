@@ -35,10 +35,12 @@
             {group.name}
           </a>
           {#if group.school_year_id === me.active_school_year}
-            <span class="badge badge-secondary">Active</span>
+            <span class="badge badge-secondary">
+              {schoolYears.find((s) => s.id === group.school_year_id)?.name} (active)
+            </span>
           {:else}
             <span class="badge badge-ghost">
-              {schoolYears.find((s) => s.id === group.schoolYearId)?.name}
+              {schoolYears.find((s) => s.id === group.school_year_id)?.name}
             </span>
           {/if}
 

@@ -82,7 +82,12 @@ export const runningRecordCreateSchema = z.object({
   student_id: z.string().length(12),
   audio_url: z.string().url().nullable(),
   marked_text: z.string().nullable(),
+  text_id: z.string().length(12).nullable(),
   comments: z.string().nullable(),
+})
+
+export const runningRecordUpdateSchema = runningRecordCreateSchema.extend({
+  id: z.string().length(12),
 })
 
 export const runningRecordTextCreateSchema = z.object({
@@ -96,6 +101,3 @@ export const runningRecordTextUpdateSchema =
   runningRecordTextCreateSchema.extend({
     id: z.string().length(12),
   })
-export const runningRecordUpdateSchema = runningRecordCreateSchema.extend({
-  id: z.string().length(12),
-})

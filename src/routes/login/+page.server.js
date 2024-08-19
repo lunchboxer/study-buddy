@@ -24,7 +24,7 @@ export const actions = {
         errors: { username: 'Username not found.' },
       })
     }
-    if (!passwordMatches(password, user.password)) {
+    if (!(await passwordMatches(password, user.password))) {
       return fail(400, {
         ...formData,
         errors: { password: 'Invalid password.' },

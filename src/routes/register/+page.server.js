@@ -10,7 +10,9 @@ import { nanoid } from 'nanoid'
 export const actions = {
   default: async ({ request, cookies }) => {
     const formData = await parseForm(registerSchema, request)
-    if (formData.errors) return fail(400, formData)
+    if (formData.errors) {
+      return fail(400, formData)
+    }
     const { username, name, password } = formData
     const result = await client.execute(
       sql`SELECT id FROM user WHERE username = ${username} LIMIT 1`,
@@ -29,8 +31,9 @@ export const actions = {
         sql`INSERT INTO user (id, username, name, password) 
         VALUES (${id}, ${username}, ${name}, ${await hashPassword(password)})`,
       )
-      if (newUserResult.rowsAffected !== 1)
+      if (newUserResult.rowsAffected !== 1) {
         return fail(500, { error: { all: 'Could not register new user' } })
+      }
 
       const token = await generateJWT({ userId: id }, JWT_SECRET)
 

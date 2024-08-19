@@ -3,7 +3,7 @@ import { client } from '$lib/data'
 import { fail } from '@sveltejs/kit'
 import { nanoid } from 'nanoid'
 
-function generateInsertSQL(data, tableName) {
+export function generateInsertSQL(data, tableName) {
   data.id = nanoid(12)
   const columns = Object.keys(data).join(', ')
   const values = Object.values(data)
@@ -15,7 +15,7 @@ function generateInsertSQL(data, tableName) {
   }
 }
 
-function generateUpdateSQL(data, tableName) {
+export function generateUpdateSQL(data, tableName) {
   const columns = Object.keys(data)
     .map(key => `${key} = ?`)
     .join(', ')
@@ -39,6 +39,20 @@ export async function parseForm(schema, request) {
     }
   }
   return formDataObject
+}
+
+export async function parsePost(schema, request) {
+  const formData = await request.json()
+  const parsedData = schema.safeParse(formData)
+
+  if (!parsedData.success) {
+    dev && console.error(parsedData.error)
+    formData.errors = {}
+    for (const error of parsedData.error.errors) {
+      formData.errors[error.path[0]] = error.message
+    }
+  }
+  return formData
 }
 
 export const deleteAction = async (request, tableName) => {

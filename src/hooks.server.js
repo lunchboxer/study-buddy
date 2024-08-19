@@ -5,15 +5,21 @@ import { client, sql } from '$lib/data'
 import { redirect } from '@sveltejs/kit'
 
 const getUserFromToken = async token => {
-  if (!token) return
+  if (!token) {
+    return
+  }
   try {
     const { userId } = await verifyAndDecodeJWT(token, JWT_SECRET)
-    if (!userId) return
+    if (!userId) {
+      return
+    }
     const result = await client.execute(
       sql`SELECT * FROM user WHERE id = ${userId} LIMIT 1`,
     )
     const user = result?.rows?.[0]
-    if (!user) return
+    if (!user) {
+      return
+    }
     const { password: _, ...authenticatedUser } = user
     return authenticatedUser
   } catch (error) {
