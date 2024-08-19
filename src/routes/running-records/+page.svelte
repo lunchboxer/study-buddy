@@ -1,6 +1,5 @@
 <script>
 import Breadcrumbs from '$lib/breadcrumbs.svelte'
-import Select from '$lib/select.svelte'
 
 export let data
 const studentOptions = data.students.map(s => ({
@@ -15,6 +14,14 @@ const textOptions = data.texts.map(t => ({
 
 let studentId = ''
 let textId = ''
+
+// sqlite stores dates as '2022-01-01 12:00:00'. Javescript thinks this is local time.
+const dateToLocal = date => {
+  const [datePart, timePart] = date.split(' ')
+  console.log(datePart, timePart)
+  const fixedDate = new Date(`${datePart}T${timePart}.000Z`)
+  return new Date(fixedDate).toLocaleString()
+}
 </script>
 
 <Breadcrumbs crumbs={[{ name: 'Running records' }]} />
@@ -45,9 +52,11 @@ let textId = ''
   </select>
 </label>
 
-<a class="btn btn-primary" href="/running-records/add?studentId={studentId}&textId={textId}"
-  >Start new running record</a
->
+{#if studentId && textId}
+  <a class="btn btn-primary" href="/running-records/add?studentId={studentId}&textId={textId}">
+    Start new running record
+  </a>
+{/if}
 
 <h2>Previous running records</h2>
 
@@ -56,7 +65,9 @@ let textId = ''
     {#each data.runningRecords as runningRecord}
       <li>
         <a href="/running-records/{runningRecord.id}">
-          {runningRecord.id} - {runningRecord.created}
+          {runningRecord.studentName} read '{runningRecord.textTitle}' - {dateToLocal(
+            runningRecord.created,
+          )}
         </a>
       </li>
     {/each}

@@ -5,7 +5,7 @@ import { addAction } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
 
 export const actions = {
-  create: async ({ request }) => {
+  create: ({ request }) => {
     return addAction(
       request,
       'school_year',
@@ -20,8 +20,9 @@ export const actions = {
         'active_school_year',
       )} WHERE id = ${locals.user.id};`,
     )
-    if (result.rowsAffected === 0)
+    if (result.rowsAffected === 0) {
       return fail(500, { errors: { all: 'Could not set active school year' } })
+    }
     return { success: true }
   },
 }
