@@ -10,7 +10,7 @@ export const client = createClient({
 // make a parameterized query but let me write it as a string
 export const sql = (strings, ...values) => ({
   sql: strings.reduce((prev, curr, i) => {
-    const value = values[i] ? '?' : ''
+    const value = values[i] === undefined ? '' : '?'
     return prev + curr + value
   }, ''),
   args: values.filter(value => value !== undefined),
