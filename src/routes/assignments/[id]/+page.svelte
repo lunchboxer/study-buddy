@@ -1,16 +1,15 @@
 <script>
-  import Form from '$lib/form.svelte'
-  import TextInput from '$lib/text-input.svelte'
-  import Select from '$lib/select.svelte'
-  import TextArea from '$lib/text-area.svelte'
-  import RadioGroup from '$lib/radio-group.svelte'
-  import DeleteModal from '$lib/delete-modal.svelte'
+import Form from '$lib/form.svelte'
+import TextInput from '$lib/text-input.svelte'
+import Select from '$lib/select.svelte'
+import TextArea from '$lib/text-area.svelte'
+import RadioGroup from '$lib/radio-group.svelte'
+import DeleteModal from '$lib/delete-modal.svelte'
 
-  export let data
-  $: console.log(data.assignment)
+export let data
 
-  const options = data.groups.map((g) => ({ label: g.name, value: g.id }))
-  const selected = data.assignment?.student_group_id
+const options = data.groups.map(g => ({ label: g.name, value: g.id }))
+const selected = data.assignment?.student_group_id
 </script>
 
 <h1>Edit Assignment</h1>

@@ -3,8 +3,6 @@ import Error from '$lib/error.svelte'
 export let data
 let fontSize = 20
 
-console.log(data)
-
 let mediaRecorder
 let audioChunks = []
 let audioUrl
@@ -207,7 +205,7 @@ async function createRunningRecord(audioUrl) {
 
 <h2>{data.text.title}</h2>
 
-<pre style="font-size: {fontSize}px;">{data.text.text}</pre>
+<pre class="bg-base-200" style="font-size: {fontSize}px;">{data.text.text}</pre>
 
 <label for="font-size">
   Font Size:

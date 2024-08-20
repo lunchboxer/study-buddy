@@ -24,7 +24,7 @@ const markWord = async type => {
     word = parseWord(word).text
   }
   const fullUrl = `${$page.url.href}/mark-word`
-  const response = await fetch(fullUrl, {
+  await fetch(fullUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

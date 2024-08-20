@@ -1,9 +1,7 @@
 <script>
-  import Breadcrumbs from '$lib/breadcrumbs.svelte'
-  import TextAddForm from './text-add-form.svelte'
-  export let data
-
-  console.log(data)
+import Breadcrumbs from '$lib/breadcrumbs.svelte'
+import TextAddForm from './text-add-form.svelte'
+export let data
 </script>
 
 <Breadcrumbs crumbs={[{ name: 'Running record texts' }]} />
