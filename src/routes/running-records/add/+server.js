@@ -3,7 +3,7 @@ import { client } from '$lib/data'
 import { runningRecordCreateSchema } from '$lib/schema'
 import { parsePost } from '$lib/server-utils'
 import { error, json } from '@sveltejs/kit'
-import { generateInsertSQL } from '$lib/server-utils'
+import { generateInsertSql } from '$lib/server-utils'
 
 /** @type {import('./$types').RequestHandler} */
 export const POST = async ({ request }) => {
@@ -13,7 +13,7 @@ export const POST = async ({ request }) => {
   }
   try {
     const newRecordResult = await client.execute(
-      generateInsertSQL(data, 'running_record'),
+      generateInsertSql(data, 'running_record'),
     )
     if (newRecordResult.rowsAffected === 0) {
       error(500, 'New record was not added to database.')

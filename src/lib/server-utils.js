@@ -3,7 +3,7 @@ import { client } from '$lib/data'
 import { fail } from '@sveltejs/kit'
 import { nanoid } from 'nanoid'
 
-export function generateInsertSQL(data, tableName) {
+export function generateInsertSql(data, tableName) {
   data.id = nanoid(12)
   const columns = Object.keys(data).join(', ')
   const values = Object.values(data)
@@ -15,7 +15,7 @@ export function generateInsertSQL(data, tableName) {
   }
 }
 
-export function generateUpdateSQL(data, tableName) {
+export function generateUpdateSql(data, tableName) {
   const columns = Object.keys(data)
     .map(key => `${key} = ?`)
     .join(', ')
@@ -62,8 +62,9 @@ export const deleteAction = async (request, tableName) => {
     sql: `DELETE FROM ${tableName} WHERE id = ?`,
     args: [id],
   })
-  if (result.rowsAffected === 0)
+  if (result.rowsAffected === 0) {
     return fail(500, { errors: { all: 'Could not delete record' } })
+  }
   return { success: true }
 }
 
@@ -75,7 +76,9 @@ export const updateAction = async (
   customQueryObject,
 ) => {
   const formData = await parseForm(validationSchema, request)
-  if (formData.errors) return fail(400, formData)
+  if (formData.errors) {
+    return fail(400, formData)
+  }
   try {
     if (otherValidations) {
       const validations = Array.isArray(otherValidations)
@@ -83,15 +86,18 @@ export const updateAction = async (
         : [otherValidations]
       for (const validation of validations) {
         const errors = await validation(formData)
-        if (errors) return fail(400, errors)
+        if (errors) {
+          return fail(400, errors)
+        }
       }
     }
-    const sql = customQueryObject || generateUpdateSQL(formData, tableName)
+    const sql = customQueryObject || generateUpdateSql(formData, tableName)
     const result = await client.execute(sql)
-    if (result.rowsAffected === 0)
+    if (result.rowsAffected === 0) {
       return fail(500, {
         errors: { all: 'Record was not updated.' },
       })
+    }
     return { success: true }
   } catch (error) {
     dev && console.error(error)
@@ -110,7 +116,9 @@ export const addAction = async (
 ) => {
   const formData = await parseForm(validationSchema, request)
 
-  if (formData.errors) return fail(400, formData)
+  if (formData.errors) {
+    return fail(400, formData)
+  }
   try {
     if (otherValidations) {
       const validations = Array.isArray(otherValidations)
@@ -118,15 +126,18 @@ export const addAction = async (
         : [otherValidations]
       for (const validation of validations) {
         const errors = await validation(formData)
-        if (errors) return fail(400, errors)
+        if (errors) {
+          return fail(400, errors)
+        }
       }
     }
-    const sql = customQueryObject || generateInsertSQL(formData, tableName)
+    const sql = customQueryObject || generateInsertSql(formData, tableName)
     const result = await client.execute(sql)
-    if (result.rowsAffected === 0)
+    if (result.rowsAffected === 0) {
       return fail(500, {
         errors: { all: 'New record was not added.' },
       })
+    }
     return { success: true }
   } catch (error) {
     dev && console.error(error)
