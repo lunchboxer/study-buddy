@@ -1,4 +1,3 @@
-import { dev } from '$app/environment'
 import { error, json } from '@sveltejs/kit'
 import { client, sql } from '$lib/data'
 

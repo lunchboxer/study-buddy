@@ -1,27 +1,20 @@
 <script>
-import Breadcrumbs from '$lib/breadcrumbs.svelte'
+  import Breadcrumbs from '$lib/breadcrumbs.svelte'
+  import { dateToLocal } from '$lib/utils'
 
-export let data
-const studentOptions = data.students.map(s => ({
-  label: `${s.name} (${s.group_name})`,
-  value: s.id,
-}))
+  export let data
+  const studentOptions = data.students.map((s) => ({
+    label: `${s.name} (${s.group_name})`,
+    value: s.id,
+  }))
 
-const textOptions = data.texts.map(t => ({
-  label: `${t.title} (${t.lexile}L)`,
-  value: t.id,
-}))
+  const textOptions = data.texts.map((t) => ({
+    label: `${t.title} (${t.lexile}L)`,
+    value: t.id,
+  }))
 
-let studentId = ''
-let textId = ''
-
-// sqlite stores dates as '2022-01-01 12:00:00'. Javescript thinks this is local time.
-const dateToLocal = date => {
-  const [datePart, timePart] = date.split(' ')
-  console.log(datePart, timePart)
-  const fixedDate = new Date(`${datePart}T${timePart}.000Z`)
-  return new Date(fixedDate).toLocaleString()
-}
+  let studentId = ''
+  let textId = ''
 </script>
 
 <Breadcrumbs crumbs={[{ name: 'Running records' }]} />
