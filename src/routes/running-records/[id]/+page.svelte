@@ -8,8 +8,16 @@ import WordToMark from '$lib/word-to-mark.svelte'
 
 export let data
 
+let showRawRecord = false
 let words = data.runningRecord?.marked_text.split(/\s+/)
+let newRawRecord = ''
 
+const updateRawRecord = event => {
+  newRawRecord = event.target.value
+}
+const writeRawRecord = () => {
+  words = newRawRecord.split(/\s+/)
+}
 const markAll = async type => {
   let all = ''
   if (type === 'unmarkAll') {
@@ -159,10 +167,33 @@ const getDetermination = words => {
   class="btn btn-success">All correct</button
 >
 
-<Form action="?/updateComment">
-  <TextArea label="Comments" data={data.runningRecord} name="comments" />
-</Form>
-
-<br />
+<div class="my-8">
+  <Form action="?/update" id="comment-form">
+    <input type="hidden" name="id" value={data.runningRecord.id} />
+    <TextArea label="Comments" data={data.runningRecord} name="comments" rows="3" />
+  </Form>
+</div>
 
 <DeleteModal thing={data.runningRecord} thingName="running record" />
+{#if !showRawRecord}
+  <button class="btn" on:click={() => (showRawRecord = true)}>Edit raw record</button>
+{:else}
+  <div class="my-8">
+    <Form action="?/update" id="raw-record-form" onSuccess={writeRawRecord}>
+      <label for="raw-record" class="form-control w-full max-w-md mb-4">
+        <div class="label">
+          <span class="label-text">Raw Record</span>
+        </div>
+        <input type="hidden" name="id" value={data.runningRecord.id} />
+        <textarea
+          rows="10"
+          class="textarea textarea-bordered"
+          id="raw-record"
+          value={words.join(' ')}
+          on:change={updateRawRecord}
+          name="marked_text"
+        />
+      </label>
+    </Form>
+  </div>
+{/if}
