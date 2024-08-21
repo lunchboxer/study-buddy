@@ -9,7 +9,8 @@ export async function load({ params, locals }) {
       rr.*,
       s.name AS student_name,
       rrt.title AS text_title,
-      sg.name AS student_group_name
+      sg.name AS student_group_name,
+      rrt.lexile AS lexile
     FROM
       running_record rr
     JOIN student s ON rr.student_id = s.id
@@ -39,4 +40,8 @@ export const actions = {
   },
   update: async ({ request }) =>
     updateAction(request, 'running_record', runningRecordUpdateSchema),
+  insert: async ({ request }) => {
+    const data = await request.formData()
+    console.log(data)
+  },
 }

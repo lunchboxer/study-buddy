@@ -4,7 +4,7 @@
 
   export let thing = {}
   export let thingName = '' // e.g. "student"
-  const name = thing?.name || thing?.title
+  export let name = thing?.name || thing?.title || `id ${thing?.id}`
   export let parentUrl = thingName ? `/${toKebabCase(thingName)}s` : '/' // e.g. "/students"
 
   let modal
@@ -17,16 +17,15 @@
     return string.replaceAll(/\s+/g, '-').toLowerCase()
   }
 
-  const successMessage = `${capitalize(thingName)} "${name}" Deleted`
+  const successMessage = `${capitalize(thingName)} ${name} Deleted`
+  const message = name
+    ? `${capitalize(thingName)} ${name} will be permanently deleted.`
+    : `This ${thingName} will be permanently deleted.`
 </script>
 
 <button class="btn" on:click={() => modal.showModal()}>Delete {thingName}</button>
 
-<Modal
-  heading="Are you sure?"
-  message="{thingName} &quot;{name}&quot; will be permanently deleted."
-  bind:modal
->
+<Modal heading="Are you sure?" {message} bind:modal>
   <Form
     action="?/delete"
     successUrl={parentUrl}

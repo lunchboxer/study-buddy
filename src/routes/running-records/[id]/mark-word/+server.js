@@ -54,5 +54,5 @@ export const POST = async ({ params, request }) => {
   if (updateResult.rowsAffected === 0) {
     error(500, 'Could not update record')
   }
-  return json({ success: true })
+  return json({ marked_text: markedText })
 }
