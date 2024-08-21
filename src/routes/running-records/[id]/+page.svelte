@@ -45,7 +45,7 @@
 
 <h2>{data.runningRecord?.text_title}</h2>
 
-<div style="font-size: 1.4rem; line-height: 2; cursor: pointer;">
+<div class="mr-8" style="font-size: 1.4rem; line-height: 2; cursor: pointer;">
   {#each words as word, index}
     <WordToMark {word} {index} />
   {/each}
