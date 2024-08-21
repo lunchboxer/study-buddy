@@ -1,92 +1,95 @@
 <script>
-  import { dateToLocal } from '$lib/utils'
-  import TextArea from '$lib/text-area.svelte'
-  import Form from '$lib/form.svelte'
-  import WordToMark from '$lib/word-to-mark.svelte'
-  import { page } from '$app/stores'
-  import DeleteModal from '$lib/delete-modal.svelte'
+import { page } from '$app/stores'
+import DeleteModal from '$lib/delete-modal.svelte'
+import Form from '$lib/form.svelte'
+import TextArea from '$lib/text-area.svelte'
+import { dateToLocal } from '$lib/utils'
+import WordToMark from '$lib/word-to-mark.svelte'
 
-  export let data
+export let data
 
-  let words = data.runningRecord?.marked_text.split(/\s+/)
+let words = data.runningRecord?.marked_text.split(/\s+/)
 
-  const markAll = async (type) => {
-    let all = ''
-    if (type === 'unmarkAll') {
-      all = data.runningRecord?.marked_text.replace(/\[\/?[a-z-]+\]/gm, '')
-      words = all.split(/\s+/).filter((word) => !word.startsWith('[insertion]'))
-    }
-    if (type === 'allAccurate') {
-      words = data.runningRecord?.marked_text
-        .split(/\s+/)
-        .filter((word) => !word.startsWith('[insertion]'))
-      for (let index = 0; index < words.length; index++) {
-        words[index] = `[accurate]${words[index].replaceAll(/\[\/?[a-z-]+\]/gm, '')}[/accurate]`
-      }
-      all = words.join(' ')
-    }
-
-    const fullUrl = `${$page.url.href}/mark-word`
-    await fetch(fullUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ all }),
-    })
+const markAll = async type => {
+  let all = ''
+  if (type === 'unmarkAll') {
+    all = data.runningRecord?.marked_text.replace(/\[\/?[a-z-]+\]/gm, '')
+    words = all.split(/\s+/).filter(word => !word.startsWith('[insertion]'))
   }
-  const countWords = (words) => {
-    let count = 0
-    for (const word of words) {
-      if (!word.startsWith('[insertion]')) {
-        count++
-      }
+  if (type === 'allAccurate') {
+    words = data.runningRecord?.marked_text
+      .split(/\s+/)
+      .filter(word => !word.startsWith('[insertion]'))
+    for (let index = 0; index < words.length; index++) {
+      words[index] =
+        `[accurate]${words[index].replaceAll(/\[\/?[a-z-]+\]/gm, '')}[/accurate]`
     }
-    return count
+    all = words.join(' ')
   }
 
-  const countErrors = (words) => {
-    let errors = 0
-    for (const word of words) {
-      if (word.startsWith('[omission]')) {
-        errors++
-      }
-      if (word.startsWith('[substitution]')) {
-        errors++
-      }
-      if (word.startsWith('[repetition]')) {
-        errors++
-      }
-      if (word.startsWith('[insertion]')) {
-        errors++
-      }
+  const fullUrl = `${$page.url.href}/mark-word`
+  await fetch(fullUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ all }),
+  })
+}
+const countWords = words => {
+  let count = 0
+  for (const word of words) {
+    if (!word.startsWith('[insertion]')) {
+      count++
     }
-    return errors
   }
-  const countSelfCorrections = (words) => {
-    let selfCorrections = 0
-    for (const word of words) {
-      if (word.startsWith('[self-correction]')) {
-        selfCorrections++
-      }
+  return count
+}
+
+const countErrors = words => {
+  let errors = 0
+  for (const word of words) {
+    if (word.startsWith('[omission]')) {
+      errors++
     }
-    return selfCorrections
+    if (word.startsWith('[substitution]')) {
+      errors++
+    }
+    if (word.startsWith('[repetition]')) {
+      errors++
+    }
+    if (word.startsWith('[insertion]')) {
+      errors++
+    }
   }
-  const getAccuracy = (words) =>
-    Math.round(((countWords(words) - countErrors(words)) / countWords(words)) * 100)
-  const getDetermination = (words) => {
-    const accuracy = getAccuracy(words)
-    if (accuracy > 96) {
-      return 'Easy: Consider advancement'
+  return errors
+}
+const countSelfCorrections = words => {
+  let selfCorrections = 0
+  for (const word of words) {
+    if (word.startsWith('[self-correction]')) {
+      selfCorrections++
     }
-    if (accuracy > 93) {
-      return 'Appropriate instructional text'
-    }
-    if (accuracy >= 90) {
-      return 'Challenging: may need support'
-    }
-    return 'Difficult: consider lower level'
   }
+  return selfCorrections
+}
+const getAccuracy = words =>
+  Math.round(
+    ((countWords(words) - countErrors(words)) / countWords(words)) * 100,
+  )
+const getDetermination = words => {
+  const accuracy = getAccuracy(words)
+  if (accuracy > 96) {
+    return 'Easy: Consider advancement'
+  }
+  if (accuracy > 93) {
+    return 'Appropriate instructional text'
+  }
+  if (accuracy >= 90) {
+    return 'Challenging: may need support'
+  }
+  return 'Difficult: consider lower level'
+}
 </script>
 
 <h1>Running Record for {data.runningRecord?.student_name}</h1>

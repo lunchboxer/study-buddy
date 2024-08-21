@@ -1,56 +1,74 @@
 <script>
-  import { page } from '$app/stores'
-  import CheckIcon from '$lib/icons/check-icon.svelte'
-  import MinusIcon from '$lib/icons/minus-icon.svelte'
-  import SlashIcon from '$lib/icons/slash-icon.svelte'
-  import RepeatIcon from '$lib/icons/repeat-icon.svelte'
-  import UserCheckIcon from '$lib/icons/user-check-icon.svelte'
-  import DeleteIcon from '$lib/icons/delete-icon.svelte'
-  import PlusIcon from '$lib/icons/plus-icon.svelte'
+import { page } from '$app/stores'
+import CheckIcon from '$lib/icons/check-icon.svelte'
+import MinusIcon from '$lib/icons/minus-icon.svelte'
+import SlashIcon from '$lib/icons/slash-icon.svelte'
+import RepeatIcon from '$lib/icons/repeat-icon.svelte'
+import UserCheckIcon from '$lib/icons/user-check-icon.svelte'
+import DeleteIcon from '$lib/icons/delete-icon.svelte'
+import PlusIcon from '$lib/icons/plus-icon.svelte'
 
-  export let word
-  export let index
-  export let words
+export let word
+export let index
+export let words
 
-  let insertionText = ''
-  let modal
-  let position = 'before'
-  let inserting = false
+let insertionText = ''
+let modal
+let position = 'before'
+let inserting = false
 
-  const setPosition = (event) => {
-    position = event.target.value
+const setPosition = event => {
+  position = event.target.value
+}
+
+const cancelInsert = () => {
+  insertionText = ''
+  position = 'before'
+  inserting = false
+  modal.close()
+}
+
+const markTypes = [
+  { type: 'accurate', icon: CheckIcon },
+  { type: 'omission', icon: MinusIcon },
+  { type: 'substitution', icon: SlashIcon },
+  { type: 'repetition', icon: RepeatIcon },
+  { type: 'self-correction', icon: UserCheckIcon },
+  { type: 'insertion', icon: PlusIcon },
+]
+
+const markWord = async type => {
+  if (type === 'insertion' && insertionText === '') {
+    modal.showModal()
+    return
   }
-
-  const cancelInsert = () => {
-    insertionText = ''
-    position = 'before'
-    inserting = false
-    modal.close()
-  }
-
-  const markTypes = [
-    { type: 'accurate', icon: CheckIcon },
-    { type: 'omission', icon: MinusIcon },
-    { type: 'substitution', icon: SlashIcon },
-    { type: 'repetition', icon: RepeatIcon },
-    { type: 'self-correction', icon: UserCheckIcon },
-    { type: 'insertion', icon: PlusIcon },
-  ]
-
-  const markWord = async (type) => {
-    if (type === 'insertion' && insertionText === '') {
-      modal.showModal()
-      return
+  if (type === 'insertion') {
+    inserting = true
+    const newWord = `[insertion]${insertionText}[/insertion]`
+    // insert newWord based on position and index
+    if (position === 'before') {
+      words.splice(index, 0, newWord)
+    } else {
+      words.splice(index + 1, 0, newWord)
     }
-    if (type === 'insertion') {
-      inserting = true
-      const newWord = `[insertion]${insertionText}[/insertion]`
-      // insert newWord based on position and index
-      if (position === 'before') {
-        words.splice(index, 0, newWord)
-      } else {
-        words.splice(index + 1, 0, newWord)
-      }
+    const all = words.join(' ')
+    const fullUrl = `${$page.url.href}/mark-word`
+    const response = await fetch(fullUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ all }),
+    })
+    const data = await response.json()
+    words = data.marked_text.split(/\s+/)
+    cancelInsert()
+    return
+  }
+  if (type === 'unmark') {
+    if (parseWord(word).type === 'insertion') {
+      // remove the word from words array
+      words.splice(index, 1)
       const all = words.join(' ')
       const fullUrl = `${$page.url.href}/mark-word`
       const response = await fetch(fullUrl, {
@@ -62,52 +80,34 @@
       })
       const data = await response.json()
       words = data.marked_text.split(/\s+/)
-      cancelInsert()
       return
     }
-    if (type === 'unmark') {
-      if (parseWord(word).type === 'insertion') {
-        // remove the word from words array
-        words.splice(index, 1)
-        const all = words.join(' ')
-        const fullUrl = `${$page.url.href}/mark-word`
-        const response = await fetch(fullUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ all }),
-        })
-        const data = await response.json()
-        words = data.marked_text.split(/\s+/)
-        return
-      }
-      word = parseWord(word).text
-    }
-    word = `[${type}]${parseWord(word).text}[/${type}]`
-    const fullUrl = `${$page.url.href}/mark-word`
-    const response = await fetch(fullUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ index, type }),
-    })
-    const data = await response.json()
-    words = data.marked_text.split(/\s+/)
+    word = parseWord(word).text
   }
+  word = `[${type}]${parseWord(word).text}[/${type}]`
+  const fullUrl = `${$page.url.href}/mark-word`
+  const response = await fetch(fullUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ index, type }),
+  })
+  const data = await response.json()
+  words = data.marked_text.split(/\s+/)
+}
 
-  function parseWord(word) {
-    const match = word.match(/\[(.*?)\](.*?)\[\/.*?\]/)
-    if (match) {
-      return { type: match[1], text: match[2] }
-    }
-    return { type: undefined, text: word }
+function parseWord(word) {
+  const match = word.match(/\[(.*?)\](.*?)\[\/.*?\]/)
+  if (match) {
+    return { type: match[1], text: match[2] }
   }
+  return { type: undefined, text: word }
+}
 </script>
 
 <span class="dropdown dropdown-hover">
-  <span role="button" class="m-1 word {parseWord(word).type}">
+  <span role="button" class="m-0 p-0 {parseWord(word).type}">
     {#if parseWord(word).type === 'insertion'}
       <sup class="insertion">
         ^{parseWord(word).text}
@@ -144,7 +144,7 @@
   </ul>
 </span>
 
-<dialog bind:this={modal} class="modal modal-middle">
+<dialog bind:this={modal} class="modal">
   <div class="modal-box">
     <input type="hidden" name="index" value={index} />
     <label class="form-control w-full max-w-md mb-4">
