@@ -20,8 +20,8 @@
       words = data.runningRecord?.marked_text
         .split(/\s+/)
         .filter((word) => !word.startsWith('[insertion]'))
-      for (let i = 0; i < words.length; i++) {
-        words[i] = `[accurate]${words[i].replace(/\[\/?[a-z-]+\]/gm, '')}[/accurate]`
+      for (let index = 0; index < words.length; index++) {
+        words[index] = `[accurate]${words[index].replaceAll(/\[\/?[a-z-]+\]/gm, '')}[/accurate]`
       }
       all = words.join(' ')
     }
@@ -35,9 +35,17 @@
       body: JSON.stringify({ all }),
     })
   }
+  const countWords = (words) => {
+    let count = 0
+    for (const word of words) {
+      if (!word.startsWith('[insertion]')) {
+        count++
+      }
+    }
+    return count
+  }
 
-  // count the number of items in the array which start with `[omission]` `[substitution]` `[repetition]` or `[insertion]`
-  const getErrors = (words) => {
+  const countErrors = (words) => {
     let errors = 0
     for (const word of words) {
       if (word.startsWith('[omission]')) {
@@ -55,7 +63,7 @@
     }
     return errors
   }
-  const getSelfCorrections = (words) => {
+  const countSelfCorrections = (words) => {
     let selfCorrections = 0
     for (const word of words) {
       if (word.startsWith('[self-correction]')) {
@@ -65,7 +73,7 @@
     return selfCorrections
   }
   const getAccuracy = (words) =>
-    Math.round(((words.length - getErrors(words)) / words.length) * 100)
+    Math.round(((countWords(words) - countErrors(words)) / countWords(words)) * 100)
   const getDetermination = (words) => {
     const accuracy = getAccuracy(words)
     if (accuracy > 96) {
@@ -76,9 +84,8 @@
     }
     if (accuracy >= 90) {
       return 'Challenging: may need support'
-    } else {
-      return 'Difficult: consider lower level'
     }
+    return 'Difficult: consider lower level'
   }
 </script>
 
@@ -96,20 +103,20 @@
 <div class="stats flex">
   <div class="stat">
     <div class="stat-title">Total Words</div>
-    <div class="stat-value">{words.length}</div>
+    <div class="stat-value">{countWords(words)}</div>
   </div>
   <div class="stat">
     <div class="stat-title">Errors</div>
-    <div class="stat-value">{getErrors(words)}</div>
+    <div class="stat-value">{countErrors(words)}</div>
   </div>
   <div class="stat">
     <div class="stat-title">Self Corrections</div>
-    <div class="stat-value">{getSelfCorrections(words)}</div>
+    <div class="stat-value">{countSelfCorrections(words)}</div>
   </div>
   <div class="stat">
     <!-- Running Words – Total Errors = Score -->
     <div class="stat-title">Score</div>
-    <div class="stat-value">{words.length - getErrors(words)}</div>
+    <div class="stat-value">{countWords(words) - countErrors(words)}</div>
   </div>
   <div class="stat">
     <!-- Score / Running Words / 100 = % Accuracy -->

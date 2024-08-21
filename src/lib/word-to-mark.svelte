@@ -11,8 +11,6 @@
   export let word
   export let index
   export let words
-  console.log(words)
-  console.log(index)
 
   let insertionText = ''
   let modal
@@ -68,7 +66,6 @@
       return
     }
     if (type === 'unmark') {
-      console.log(word)
       if (parseWord(word).type === 'insertion') {
         // remove the word from words array
         words.splice(index, 1)

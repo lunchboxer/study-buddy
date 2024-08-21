@@ -40,8 +40,8 @@ export const actions = {
   },
   update: async ({ request }) =>
     updateAction(request, 'running_record', runningRecordUpdateSchema),
-  insert: async ({ request }) => {
+  insert: async ({ request, params }) => {
+    const { id } = params
     const data = await request.formData()
-    console.log(data)
   },
 }
