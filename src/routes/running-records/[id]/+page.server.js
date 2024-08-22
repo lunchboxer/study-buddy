@@ -1,7 +1,7 @@
 import { client, sql } from '$lib/data'
 import { runningRecordUpdateSchema } from '$lib/schema'
 import { updateAction, deleteAction } from '$lib/server-utils'
-import { fail } from '@sveltejs/kit'
+import { error } from '@sveltejs/kit'
 
 export async function load({ params, locals }) {
   const runningRecordResult = await client.execute(
@@ -10,38 +10,30 @@ export async function load({ params, locals }) {
       s.name AS student_name,
       rrt.title AS text_title,
       sg.name AS student_group_name,
-      rrt.lexile AS lexile
+      rrt.lexile AS lexile,
+      COALESCE(u.name, 'N/A') AS marked_by_name
     FROM
       running_record rr
     JOIN student s ON rr.student_id = s.id
     JOIN running_record_text rrt ON rr.text_id = rrt.id
     JOIN student_to_group stg ON s.id = stg.student_id
     JOIN student_group sg ON stg.student_group_id = sg.id
+    LEFT JOIN user u ON rr.marked_by = u.id
     WHERE
       rr.id = ${params.id}
       AND sg.school_year_id = ${locals.user.active_school_year}`,
   )
+  const runningRecord = runningRecordResult?.rows?.[0]
+  if (!runningRecord) {
+    error(404, 'Running record not found.')
+  }
   return {
-    runningRecord: runningRecordResult?.rows?.[0],
+    runningRecord,
   }
 }
 
 export const actions = {
   delete: async ({ request }) => deleteAction(request, 'running_record'),
-  updateComment: async ({ request, params }) => {
-    const data = await request.formData()
-    const id = params.id
-    const comments = data.get('comments') || ''
-    const query = sql`UPDATE running_record SET comments = ${comments} WHERE id = ${id};`
-    const result = await client.execute(query)
-    if (result.rowsAffected === 0) {
-      return fail(500, { errors: { all: 'Could not update record' } })
-    }
-  },
   update: async ({ request }) =>
     updateAction(request, 'running_record', runningRecordUpdateSchema),
-  insert: async ({ request, params }) => {
-    const { id } = params
-    const data = await request.formData()
-  },
 }

@@ -29,11 +29,11 @@
   <Form
     action="?/delete"
     successUrl={parentUrl}
-    onReset={() => modal.close()}
+    onReset={() => modal?.close()}
     resetLabel="Cancel"
     submitLabel="Yes, delete {thingName}"
     {successMessage}
-    onSuccess={() => modal.close()}
+    onSuccess={() => modal?.close()}
   >
     <input type="hidden" name="id" value={thing?.id} />
   </Form>

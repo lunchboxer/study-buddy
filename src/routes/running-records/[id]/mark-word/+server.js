@@ -18,7 +18,7 @@ function unMarkAll(text) {
 
 /** @type {import('./$types').RequestHandler} */
 export const POST = async ({ params, request }) => {
-  const { index, type, all } = await request.json()
+  const { index, type, all, userId } = await request.json()
   if (!(type || all)) {
     error(400, 'No type or all specified')
   }
@@ -49,7 +49,7 @@ export const POST = async ({ params, request }) => {
   }
 
   const updateResult = await client.execute(
-    sql`UPDATE running_record SET marked_text = ${markedText} WHERE id = ${runningRecordId};`,
+    sql`UPDATE running_record SET marked_text = ${markedText}, marked_by = ${userId} WHERE id = ${runningRecordId};`,
   )
   if (updateResult.rowsAffected === 0) {
     error(500, 'Could not update record')

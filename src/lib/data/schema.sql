@@ -19,6 +19,7 @@ CREATE TABLE `student_group` (
 	`created` text DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	FOREIGN KEY (`school_year_id`) REFERENCES `school_year`(`id`) ON UPDATE no action ON DELETE no action
 );
+CREATE INDEX `student_group_school_year_index` ON `student_group` (`school_year_id`);
 CREATE TABLE `school_year` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
@@ -126,7 +127,10 @@ CREATE TABLE `running_record` (
   `created` text DEFAULT CURRENT_TIMESTAMP NOT NULL,
   `audio_url` text,
   `marked_text` text,
+  `marked_by` text,
   `comments` text,
   FOREIGN KEY (`text_id`) REFERENCES `running_record_text`(`id`) ON UPDATE no action ON DELETE no action,
-  FOREIGN KEY (`student_id`) REFERENCES `student`(`id`) ON UPDATE no action ON DELETE no action
+  FOREIGN KEY (`student_id`) REFERENCES `student`(`id`) ON UPDATE no action ON DELETE no action,
+  FOREIGN KEY (`marked_by`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
+
