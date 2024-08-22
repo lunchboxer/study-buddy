@@ -10,7 +10,7 @@ export const load = async () => {
 }
 
 export const actions = {
-  create: async ({ request }) => {
+  create: ({ request }) => {
     return addAction(request, 'subject', subjectCreateSchema, subjectNameUnique)
   },
 }

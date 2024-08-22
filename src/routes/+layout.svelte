@@ -1,17 +1,17 @@
 <script>
-import '../app.css'
-import Header from '$lib/header.svelte'
-import Footer from '$lib/footer.svelte'
-import SidebarNav from '$lib/sidebar-nav.svelte'
-import { NotificationList } from '$lib/notifications'
-import LogoutModal from '$lib/logout-modal.svelte'
-import { theme, themeSwitcher } from '$lib/theme-switcher.svelte'
-import { page } from '$app/stores'
+  import '../app.css'
+  import Header from '$lib/header.svelte'
+  import Footer from '$lib/footer.svelte'
+  import SidebarNav from '$lib/sidebar-nav.svelte'
+  import NotificationList from '$lib/notifications/notification-list.svelte'
+  import LogoutModal from '$lib/logout-modal.svelte'
+  import { theme, themeSwitcher } from '$lib/theme-switcher.svelte'
+  import { page } from '$app/stores'
 
-export let data
-let checked = ''
+  export let data
+  let checked = ''
 
-$: themeSwitcher($theme)
+  $: themeSwitcher($theme)
 </script>
 
 <svelte:head>

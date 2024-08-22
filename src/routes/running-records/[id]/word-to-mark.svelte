@@ -67,6 +67,7 @@
       cancelInsert()
       return
     }
+
     if (type === 'unmark') {
       if (parseWord(word).type === 'insertion') {
         // remove the word from words array
@@ -100,7 +101,7 @@
   }
 
   function parseWord(word) {
-    const match = word.match(/\[(.*?)\](.*?)\[\/.*?\]/)
+    const match = word.match(/\[(.*?)](.*?)\[\/.*?]/)
     if (match) {
       return { type: match[1], text: match[2] }
     }
@@ -127,6 +128,13 @@
     {#each markTypes as { type, icon }}
       <li class="p-1 m-0">
         <span
+          role="button"
+          tabindex="0"
+          on:keydown={(event) => {
+            if (event.key === 'Enter') {
+              markWord(type)
+            }
+          }}
           class="tooltip m-0"
           class:bg-base-100={parseWord(word).type === type}
           data-tip={type}
@@ -138,7 +146,18 @@
     {/each}
     {#if parseWord(word).type}
       <li class="p-1 m-0">
-        <span class="tooltip m-0" data-tip="remove mark" on:click={() => markWord('unmark')}>
+        <span
+          tabindex="0"
+          on:keydown={(event) => {
+            if (event.key === 'Enter') {
+              markWord('unmark')
+            }
+          }}
+          class="tooltip m-0"
+          role="button"
+          data-tip="remove mark"
+          on:click={() => markWord('unmark')}
+        >
           <svelte:component this={DeleteIcon} />
         </span>
       </li>

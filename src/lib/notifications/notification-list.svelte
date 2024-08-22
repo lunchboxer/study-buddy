@@ -1,7 +1,7 @@
 <script>
   import { fly } from 'svelte/transition'
   import NotificationItem from './notification-item.svelte'
-  import { notifications } from './data'
+  import { notifications } from './notifications-store'
 </script>
 
 {#if $notifications}

@@ -23,6 +23,7 @@
 <li><a href="/assignments">Assignments</a></li>
 <li><a href="/running-records">Running records</a></li>
 <li><a href="/running-record-texts">Running record texts</a></li>
+<li><a href="/users">Users</a></li>
 
 <br />
 <div class="divider">{me?.username}</div>

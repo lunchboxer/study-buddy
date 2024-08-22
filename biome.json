@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.8.2/schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "organizeImports": {
     "enabled": true
   },
@@ -7,9 +7,11 @@
     "ignore": [
       "./node_modules/**",
       "./dist/**",
+      "./build/**",
       "./.git/**",
       "./.svelte-kit/**",
-      "./.cloudflare/**"
+      "./.cloudflare/**",
+      "*.svelte"
     ]
   },
   "formatter": {
@@ -30,6 +32,7 @@
     "rules": {
       "all": true,
       "style": {
+        "useNamingConvention": "off",
         "noDefaultExport": "off"
       }
     }

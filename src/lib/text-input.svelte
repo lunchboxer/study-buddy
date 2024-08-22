@@ -1,6 +1,6 @@
 <script>
-  import { Fa } from 'svelte-fa'
-  import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+  import EyeIcon from '$lib/icons/eye-icon.svelte'
+  import EyeOffIcon from '$lib/icons/eye-off-icon.svelte'
   import { page } from '$app/stores'
   import { toSnakeCase } from '$lib/utils'
 
@@ -73,7 +73,11 @@
         on:click={showHidePassword}
         on:keydown={(event) => event.key === 'Enter' && showHidePassword()}
       >
-        <Fa icon={showPassword ? faEye : faEyeSlash} class="inline" />
+        {#if showPassword}
+          <EyeOffIcon />
+        {:else}
+          <EyeIcon />
+        {/if}
       </span>
     </div>
   {:else}

@@ -24,7 +24,7 @@
   const markAll = async (type) => {
     let all = ''
     if (type === 'unmarkAll') {
-      all = data.runningRecord?.marked_text.replace(/\[\/?[a-z-]+\]/gm, '')
+      all = data.runningRecord?.marked_text.replaceAll(/\[\/?[a-z-]+]/gm, '')
       words = all.split(/\s+/).filter((word) => !word.startsWith('[insertion]'))
     }
     if (type === 'allAccurate') {
@@ -32,7 +32,7 @@
         .split(/\s+/)
         .filter((word) => !word.startsWith('[insertion]'))
       for (let index = 0; index < words.length; index++) {
-        words[index] = `[accurate]${words[index].replaceAll(/\[\/?[a-z-]+\]/gm, '')}[/accurate]`
+        words[index] = `[accurate]${words[index].replaceAll(/\[\/?[a-z-]+]/gm, '')}[/accurate]`
       }
       all = words.join(' ')
     }

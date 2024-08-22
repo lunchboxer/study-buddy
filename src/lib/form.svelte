@@ -1,6 +1,6 @@
 <script>
   import { enhance } from '$app/forms'
-  import { notifications } from '$lib/notifications'
+  import { notifications } from '$lib/notifications/notifications-store'
   import { goto, invalidateAll } from '$app/navigation'
   import Error from './error.svelte'
 

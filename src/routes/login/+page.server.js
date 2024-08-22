@@ -11,7 +11,9 @@ import { fail } from '@sveltejs/kit'
 export const actions = {
   default: async ({ request, cookies }) => {
     const formData = await parseForm(loginSchema, request)
-    if (formData.errors) return fail(400, formData)
+    if (formData.errors) {
+      return fail(400, formData)
+    }
     const { username, password } = formData
     const result = await client.execute(
       sql`SELECT id, password FROM user WHERE username = ${username} LIMIT 1`,
