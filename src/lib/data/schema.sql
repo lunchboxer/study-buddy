@@ -64,12 +64,14 @@ CREATE TABLE `user` (
 	`id` text PRIMARY KEY NOT NULL,
 	`username` text NOT NULL,
 	`name` text,
+  `email` text,
 	`password` text NOT NULL,
 	`active_school_year` text,
 	`created` text DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 CREATE UNIQUE INDEX `subject_name_unique` ON `subject` (`name`);
 CREATE UNIQUE INDEX `user_username_unique` ON `user` (`username`);
+CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);
 
 CREATE TABLE `role` (
   `id` text PRIMARY KEY NOT NULL,
