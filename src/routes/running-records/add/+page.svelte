@@ -204,6 +204,6 @@
     message="Really delete your recording and start over?"
   >
     <button class="btn btn-error" on:click={deleteAudio}>Yes. Delete it.</button>
-    <button class="btn btn-error" on:click={cancelDelete}>No. Keep it.</button>
+    <button class="btn btn-success" on:click={cancelDelete}>No. Keep it.</button>
   </Modal>
 {/if}

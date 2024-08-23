@@ -7,8 +7,8 @@
   export let label = ''
   export let name = ''
   export let description = ''
-  export let min
-  export let max
+  export let min = ''
+  export let max = ''
 
   const id = name || toSnakeCase(label)
   const descriptionId = `description-${id}`

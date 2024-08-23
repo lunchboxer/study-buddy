@@ -9,7 +9,7 @@
   export let method = 'post'
   export let successMessage = 'Form processed successfully'
   export let successUrl = ''
-  export let action = ''
+  export let action
   export let onReset = () => {}
   export let onSuccess = () => {}
   export let inline = false

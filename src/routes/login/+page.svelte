@@ -17,7 +17,12 @@
   <hr />
   <h2>Login required</h2>
 
-  <Form submitLabel="Log in" successMessage="Login successful" successUrl={returnTo || '/'}>
+  <Form
+    id="login"
+    submitLabel="Log in"
+    successMessage="Login successful"
+    successUrl={returnTo || '/'}
+  >
     <TextInput label="Username" autocomplete="username" />
     <TextInput label="Password" type="password" autocomplete="current-password" />
     <p>
