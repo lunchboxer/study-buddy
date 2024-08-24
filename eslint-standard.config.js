@@ -1,13 +1,4 @@
-// import eslintPluginImport from 'eslint-plugin-import'
-import eslintPluginPromise from 'eslint-plugin-promise'
-import eslintPluginN from 'eslint-plugin-n'
-
 export default {
-  plugins: {
-    // import: eslintPluginImport,
-    promise: eslintPluginPromise,
-    n: eslintPluginN,
-  },
   rules: {
     'no-var': 'warn',
     'object-shorthand': ['warn', 'properties'],
@@ -27,24 +18,7 @@ export default {
     'arrow-spacing': ['error', { before: true, after: true }],
     'block-spacing': ['error', 'always'],
     'brace-style': ['error', '1tbs', { allowSingleLine: true }],
-    camelcase: [
-      'error',
-      {
-        allow: ['^UNSAFE_'],
-        properties: 'never',
-        ignoreGlobals: true,
-      },
-    ],
-    'comma-dangle': [
-      'error',
-      {
-        arrays: 'never',
-        objects: 'never',
-        imports: 'never',
-        exports: 'never',
-        functions: 'never',
-      },
-    ],
+    'comma-dangle': ['error', 'always-multiline'],
     'comma-spacing': ['error', { before: false, after: true }],
     'comma-style': ['error', 'last'],
     'computed-property-spacing': [
@@ -255,7 +229,6 @@ export default {
     semi: ['error', 'never'],
     'semi-spacing': ['error', { before: false, after: true }],
     'space-before-blocks': ['error', 'always'],
-    'space-before-function-paren': ['error', 'always'],
     'space-in-parens': ['error', 'never'],
     'space-infix-ops': 'error',
     'space-unary-ops': ['error', { words: true, nonwords: false }],
@@ -286,25 +259,5 @@ export default {
     'wrap-iife': ['error', 'any', { functionPrototypeMethods: true }],
     'yield-star-spacing': ['error', 'both'],
     yoda: ['error', 'never'],
-
-    // 'import/export': 'error',
-    // 'import/first': 'error',
-    // 'import/no-absolute-path': [
-    //   'error',
-    //   { esmodule: true, commonjs: true, amd: false },
-    // ],
-    // 'import/no-duplicates': 'error',
-    // 'import/no-named-default': 'error',
-    // 'import/no-webpack-loader-syntax': 'error',
-
-    'n/handle-callback-err': ['error', '^(err|error)$'],
-    'n/no-callback-literal': 'error',
-    'n/no-deprecated-api': 'error',
-    'n/no-exports-assign': 'error',
-    'n/no-new-require': 'error',
-    'n/no-path-concat': 'error',
-    'n/process-exit-as-throw': 'error',
-
-    'promise/param-names': 'error',
   },
 }

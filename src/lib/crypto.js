@@ -12,7 +12,7 @@ export async function hashPassword(password) {
   const derivedKey = await crypto.subtle.deriveKey(
     {
       name: 'PBKDF2',
-      salt: salt,
+      salt,
       iterations: 100_000,
       hash: 'SHA-256',
     },
@@ -50,7 +50,7 @@ export async function passwordMatches(password, hashedPassword) {
   const derivedKeyToCompare = await crypto.subtle.deriveBits(
     {
       name: 'PBKDF2',
-      salt: salt,
+      salt,
       iterations: 100_000,
       hash: 'SHA-256',
     },

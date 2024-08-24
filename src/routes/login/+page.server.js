@@ -6,8 +6,6 @@ import { loginSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
 
-// const sign = createSigner({ key: JWT_SECRET })
-
 export const actions = {
   default: async ({ request, cookies }) => {
     const formData = await parseForm(loginSchema, request)
