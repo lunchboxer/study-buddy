@@ -55,6 +55,9 @@ export const userUpdatePasswordSchema = z.object({
     .max(20, { message: 'Password is 4-20 characters' }),
 })
 
+export const roleCreateSchema = z.object({
+  name: z.string().min(1, { message: 'Name is required' }).max(60),
+})
 export const schoolYearCreateSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }).max(60),
   start_date: z.string().length(10, { message: 'Start date is required' }),

@@ -77,6 +77,7 @@ CREATE TABLE `role` (
   `id` text PRIMARY KEY NOT NULL,
   `name` text NOT NULL
 );
+CREATE UNIQUE INDEX `role_name_unique` ON `role` (`name`);
 
 CREATE TABLE `user_role` (
   `user_id` text NOT NULL,

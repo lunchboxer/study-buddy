@@ -24,6 +24,15 @@ export const usernameUnique = async ({ username, id }) => {
   }
 }
 
+export const roleNameUnique = async ({ name, id }) => {
+  const sameNameRoles = await client.execute(
+    sql`SELECT * FROM role WHERE name = ${name};`,
+  )
+  if (sameNameRoles?.rows?.length > 0 && id !== sameNameRoles?.rows?.[0].id) {
+    return { errors: { name: `A role named "${name}" already exists` } }
+  }
+}
+
 export const mustStartBeforeEnd = ({ start_date, end_date }) => {
   if (new Date(start_date) > new Date(end_date)) {
     return {
