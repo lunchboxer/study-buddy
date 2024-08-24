@@ -13,7 +13,8 @@ export const GET = async ({ params }) => {
     SELECT student_group.id, student_group.name, student_group.school_year_id
     FROM student_to_group 
     JOIN student_group ON student_to_group.student_group_id = student_group.id
-    WHERE student_to_group.student_id = ${params.id};`
+    WHERE student_to_group.student_id = ${params.id};
+  `
   const studentGroupsResult = await client.execute(query)
   return json({
     student: studentResult?.rows?.[0],

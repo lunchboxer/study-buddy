@@ -5,7 +5,7 @@ function parseWord(word) {
   if (!word) {
     return {}
   }
-  const match = word.match(/\[(.*?)\](.*?)\[\/.*?\]/)
+  const match = word.match(/\[(.*?)](.*?)\[\/.*?]/)
   if (match) {
     return { type: match[1], text: match[2] }
   }
@@ -13,7 +13,7 @@ function parseWord(word) {
 }
 
 function unMarkAll(text) {
-  return text.replace(/\[.*?\]/, '')
+  return text.replace(/\[.*?]/, '')
 }
 
 /** @type {import('./$types').RequestHandler} */
@@ -38,11 +38,10 @@ export const POST = async ({ params, request }) => {
   if (type) {
     const words = text.split(/\s+/)
     const word = parseWord(words[index])
-    if (type === 'unmark') {
-      words[index] = unMarkAll(word.text)
-    } else {
-      words[index] = `[${type}]${word.text}[/${type}]`
-    }
+    words[index] =
+      type === 'unmark'
+        ? unMarkAll(word.text)
+        : `[${type}]${word.text}[/${type}]`
     markedText = words.join(' ')
   } else {
     markedText = all

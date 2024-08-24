@@ -19,8 +19,8 @@ export const POST = async ({ request }) => {
       error(500, 'New record was not added to database.')
     }
     return json({ success: true })
-  } catch (errors) {
-    dev && console.error(errors)
+  } catch (error_) {
+    dev && console.error(error_)
     error(500, 'A server error occurred when adding record.')
   }
 }

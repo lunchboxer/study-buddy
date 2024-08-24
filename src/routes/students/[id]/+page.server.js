@@ -21,7 +21,8 @@ export async function load({ params }) {
     SELECT student_group.id, student_group.name, student_group.school_year_id
     FROM student_to_group 
     JOIN student_group ON student_to_group.student_group_id = student_group.id
-    WHERE student_to_group.student_id = ${params.id};`
+    WHERE student_to_group.student_id = ${params.id};
+  `
   const studentGroupsResult = await client.execute(query)
   return {
     student: studentResult?.rows?.[0],
@@ -58,8 +59,10 @@ export const actions = {
     }
     try {
       const addGroupResult = await client.execute(
-        sql`INSERT INTO student_to_group (student_id, student_group_id) 
-        VALUES (${formData.student_id}, ${formData.student_group_id});`,
+        sql`
+          INSERT INTO student_to_group (student_id, student_group_id) 
+                  VALUES (${formData.student_id}, ${formData.student_group_id});
+        `,
       )
       if (addGroupResult.rowsAffected === 0) {
         return fail(500, { errors: { all: 'Could not add group to student' } })
@@ -77,9 +80,11 @@ export const actions = {
     }
     try {
       const result = await client.execute(
-        sql`DELETE FROM student_to_group 
-        WHERE student_id = ${formData.student_id} 
-        AND student_group_id = ${formData.student_group_id};`,
+        sql`
+          DELETE FROM student_to_group 
+                  WHERE student_id = ${formData.student_id} 
+                  AND student_group_id = ${formData.student_group_id};
+        `,
       )
       if (result.rowsAffected === 0) {
         return fail(500, {

@@ -17,7 +17,8 @@ export const load = async ({ locals }) => {
     JOIN running_record_text rrt ON rr.text_id = rrt.id
     WHERE
       sg.school_year_id = ${activeSchoolYear}
-    ORDER BY rr.created DESC;`)
+    ORDER BY rr.created DESC;
+  `)
 
   const activeStudents = await client.execute(sql`
     SELECT DISTINCT student.*, sg.name AS group_name
@@ -27,7 +28,8 @@ export const load = async ({ locals }) => {
     JOIN student ON stg.student_id = student.id
     WHERE user.active_school_year = ${activeSchoolYear}
       AND student.archived = 0
-    ORDER BY student.name;`)
+    ORDER BY student.name;
+  `)
   const textsResult = await client.execute(
     sql`SELECT * FROM running_record_text ORDER BY lexile ASC;`,
   )

@@ -20,14 +20,14 @@ const getUserFromToken = async token => {
     if (!user) {
       return
     }
-    const { password: _, ...authenticatedUser } = user
+    const { password, ...authenticatedUser } = user
     return authenticatedUser
   } catch (error) {
     dev && console.error('getUserFromToken error', error)
   }
 }
 
-const routesNotProtected = ['/about', '/login', '/logout', '/register']
+const routesNotProtected = new Set(['/about', '/login', '/logout', '/register'])
 
 const redirectWithReturn = (event, redirectUrl) => {
   const newPath =
@@ -41,11 +41,11 @@ const redirectWithReturn = (event, redirectUrl) => {
 export async function handle({ event, resolve }) {
   const authToken = event.cookies.get('auth')
   event.locals.user = await getUserFromToken(authToken)
-  if (!(routesNotProtected.includes(event.url.pathname) || event.locals.user)) {
+  if (!(routesNotProtected.has(event.url.pathname) || event.locals.user)) {
     redirectWithReturn(event, '/login')
   } else if (
     !(
-      routesNotProtected.includes(event.url.pathname) ||
+      routesNotProtected.has(event.url.pathname) ||
       event.locals.user?.active_school_year
     ) &&
     event.url.pathname !== '/setup'

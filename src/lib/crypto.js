@@ -13,7 +13,7 @@ export async function hashPassword(password) {
     {
       name: 'PBKDF2',
       salt: salt,
-      iterations: 100000,
+      iterations: 100_000,
       hash: 'SHA-256',
     },
     keyMaterial,
@@ -21,13 +21,13 @@ export async function hashPassword(password) {
     true,
     ['encrypt', 'decrypt'],
   )
-  const saltHex = Array.from(new Uint8Array(salt))
+  const saltHex = [...new Uint8Array(salt)]
     .map(byte => byte.toString(16).padStart(2, '0'))
     .join('')
   const derivedKeyHex = await crypto.subtle
     .exportKey('raw', derivedKey)
     .then(keyBuffer =>
-      Array.from(new Uint8Array(keyBuffer))
+      [...new Uint8Array(keyBuffer)]
         .map(byte => byte.toString(16).padStart(2, '0'))
         .join(''),
     )
@@ -35,10 +35,10 @@ export async function hashPassword(password) {
 }
 export async function passwordMatches(password, hashedPassword) {
   const encoder = new TextEncoder()
-  const saltHex = hashedPassword.substring(0, 32)
-  const derivedKeyHex = hashedPassword.substring(32)
+  const saltHex = hashedPassword.slice(0, 32)
+  const derivedKeyHex = hashedPassword.slice(32)
   const salt = new Uint8Array(
-    Array.from(saltHex.match(/.{1,2}/g)).map(byte => Number.parseInt(byte, 16)),
+    [...saltHex.match(/.{1,2}/g)].map(byte => Number.parseInt(byte, 16)),
   )
   const keyMaterial = await crypto.subtle.importKey(
     'raw',
@@ -51,13 +51,13 @@ export async function passwordMatches(password, hashedPassword) {
     {
       name: 'PBKDF2',
       salt: salt,
-      iterations: 100000,
+      iterations: 100_000,
       hash: 'SHA-256',
     },
     keyMaterial,
     256,
   )
-  const derivedKeyToCompareHex = Array.from(new Uint8Array(derivedKeyToCompare))
+  const derivedKeyToCompareHex = [...new Uint8Array(derivedKeyToCompare)]
     .map(byte => byte.toString(16).padStart(2, '0'))
     .join('')
   return derivedKeyToCompareHex === derivedKeyHex
@@ -87,7 +87,7 @@ export async function generateJWT(payload, secretKey) {
     encoder.encode(dataToSign),
   )
   const signatureEncoded = btoa(
-    String.fromCharCode.apply(null, new Uint8Array(signature)),
+    String.fromCharCode.apply(undefined, new Uint8Array(signature)),
   )
   return `${dataToSign}.${signatureEncoded}`
 }
@@ -117,13 +117,11 @@ export async function verifyAndDecodeJWT(jwt, secretKey) {
   throw new Error('JWT verification failed')
 }
 function base64UrlToUint8Array(base64UrlString) {
-  const base64String = base64UrlString.replace(/-/g, '+').replace(/_/g, '/')
+  const base64String = base64UrlString.replaceAll('-', '+').replaceAll('_', '/')
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
   const base64 = base64String + padding
   const rawData = atob(base64)
   const outputArray = new Uint8Array(rawData.length)
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i)
-  }
+  outputArray.set(Uint8Array.from(rawData, char => char.codePointAt(0)))
   return outputArray
 }

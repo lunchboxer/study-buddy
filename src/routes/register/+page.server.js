@@ -28,8 +28,10 @@ export const actions = {
     try {
       const id = nanoid(12)
       const newUserResult = await client.execute(
-        sql`INSERT INTO user (id, username, name, password) 
-        VALUES (${id}, ${username}, ${name}, ${await hashPassword(password)})`,
+        sql`
+          INSERT INTO user (id, username, name, password) 
+                  VALUES (${id}, ${username}, ${name}, ${await hashPassword(password)})
+        `,
       )
       if (newUserResult.rowsAffected !== 1) {
         return fail(500, { error: { all: 'Could not register new user' } })
