@@ -6,8 +6,8 @@ export const load = async () => {
   const result = await client.execute(
     sql`SELECT * FROM user ORDER BY username;`,
   )
-  const resultUsers = result?.rows || []
-  const users = resultUsers.map(user => {
+  const usersResult = result?.rows || []
+  const users = usersResult.map(user => {
     const { password, ...safeUser } = user
     return safeUser
   })
