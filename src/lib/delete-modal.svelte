@@ -17,7 +17,7 @@
     return string.replaceAll(/\s+/g, '-').toLowerCase()
   }
 
-  const successMessage = `${capitalize(thingName)} ${name} Deleted`
+  const successMessage = `${capitalize(thingName)} ${name} deleted`
   const message = name
     ? `${capitalize(thingName)} ${name} will be permanently deleted.`
     : `This ${thingName} will be permanently deleted.`

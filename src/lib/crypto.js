@@ -1,4 +1,7 @@
 export async function hashPassword(password) {
+  if (!password) {
+    return
+  }
   const encoder = new TextEncoder()
   const passwordBuffer = encoder.encode(password)
   const salt = crypto.getRandomValues(new Uint8Array(16))

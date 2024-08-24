@@ -19,7 +19,7 @@ export const registerSchema = loginSchema.extend({
 })
 
 export const userCreateSchema = z.object({
-  email: z.string().trim().email().nullable(),
+  email: z.union([z.string().trim().email(), z.string().max(0), z.null()]),
   username: z
     .string()
     .trim()
@@ -34,8 +34,25 @@ export const userCreateSchema = z.object({
   name: z.string().trim().max(60),
 })
 
-export const userUpdateSchema = userCreateSchema.extend({
+export const userUpdateSchema = z.object({
   id: z.string(),
+  email: z.union([z.string().trim().email(), z.string().max(0), z.null()]),
+  username: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .min(1, { message: 'Username is required' })
+    .max(18),
+  name: z.string().trim().max(60),
+})
+
+export const userUpdatePasswordSchema = z.object({
+  id: z.string(),
+  password: z
+    .string()
+    .trim()
+    .min(4, { message: 'Password is 4-20 characters' })
+    .max(20, { message: 'Password is 4-20 characters' }),
 })
 
 export const schoolYearCreateSchema = z.object({

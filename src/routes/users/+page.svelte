@@ -1,11 +1,40 @@
 <script>
+  import Breadcrumbs from '$lib/breadcrumbs.svelte'
+  import Form from '$lib/form.svelte'
+  import TextInput from '$lib/text-input.svelte'
   export let data
 </script>
+
+<Breadcrumbs crumbs={[{ name: 'Users' }]} />
 
 <h1>Users</h1>
 
 {#if data.users?.length !== 0}
-  {#each data.users as user}
-    <div>{user.username}</div>
-  {/each}
+  <div class="overflow-x-auto w-full">
+    <table class="table-auto table table-zebra w-full">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      {#each data.users as user}
+        <tr>
+          <td><a href="/users/{user.id}">{user.username}</a></td>
+          <td>{user.name}</td>
+          <td>{user.email || '-'}</td>
+        </tr>
+      {/each}
+    </table>
+  </div>
 {/if}
+
+<h2>Add a new user</h2>
+
+<Form action="?/create" submitLabel="Add" successMessage="User created" successUrl="/users">
+  <TextInput label="Username" name="username" required />
+  <TextInput label="Password" name="password" required type="password" />
+  <TextInput label="Name" name="name" required />
+  <TextInput label="Email" name="email" />
+</Form>

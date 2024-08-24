@@ -1,7 +1,7 @@
 <script>
   import { enhance } from '$app/forms'
   import { notifications } from '$lib/notifications/notifications-store'
-  import { goto, invalidateAll } from '$app/navigation'
+  import { goto } from '$app/navigation'
   import Error from './error.svelte'
 
   export let submitLabel = 'Submit'
@@ -25,7 +25,7 @@
     errors = ''
     formComponent.reset()
     formComponent.setAttribute('isValid', true)
-    await invalidateAll()
+    // await invalidateAll()
     onReset()
   }
 

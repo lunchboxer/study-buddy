@@ -1,4 +1,5 @@
 import { client, sql } from '$lib/data'
+import { subjectNameUnique } from '$lib/data/validations'
 import { subjectUpdateSchema } from '$lib/schema'
 import { deleteAction, updateAction } from '$lib/server-utils'
 
@@ -14,5 +15,5 @@ export async function load({ params }) {
 export const actions = {
   delete: async ({ request }) => deleteAction(request, 'subject'),
   update: async ({ request }) =>
-    updateAction(request, 'subject', subjectUpdateSchema),
+    updateAction(request, 'subject', subjectUpdateSchema, subjectNameUnique),
 }

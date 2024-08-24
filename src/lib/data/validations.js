@@ -12,6 +12,18 @@ export const subjectNameUnique = async ({ name }) => {
   }
 }
 
+export const usernameUnique = async ({ username, id }) => {
+  const sameUsernameUsers = await client.execute(
+    sql`SELECT * FROM user WHERE username = ${username};`,
+  )
+  if (
+    sameUsernameUsers?.rows?.length > 0 &&
+    id !== sameUsernameUsers?.rows?.[0].id
+  ) {
+    return { errors: { username: 'That username is already taken' } }
+  }
+}
+
 export const mustStartBeforeEnd = ({ start_date, end_date }) => {
   if (new Date(start_date) > new Date(end_date)) {
     return {

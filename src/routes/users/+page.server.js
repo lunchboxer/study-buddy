@@ -1,5 +1,6 @@
 import { client, sql } from '$lib/data'
 import { userCreateSchema } from '$lib/schema'
+import { usernameUnique } from '$lib/data/validations'
 import { addAction } from '$lib/server-utils'
 
 export const load = async () => {
@@ -15,5 +16,7 @@ export const load = async () => {
 }
 
 export const actions = {
-  create: ({ request }) => addAction(request, 'user', userCreateSchema),
+  // TODO: add validation for user is admin
+  create: ({ request }) =>
+    addAction(request, 'user', userCreateSchema, usernameUnique),
 }
