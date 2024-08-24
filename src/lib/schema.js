@@ -58,6 +58,16 @@ export const userUpdatePasswordSchema = z.object({
 export const roleCreateSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }).max(60),
 })
+
+export const roleUpdateSchema = roleCreateSchema.extend({
+  id: z.string(),
+})
+
+export const roleAddUserSchema = z.object({
+  role_id: z.string().length(12),
+  user_id: z.string().length(12),
+})
+
 export const schoolYearCreateSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }).max(60),
   start_date: z.string().length(10, { message: 'Start date is required' }),

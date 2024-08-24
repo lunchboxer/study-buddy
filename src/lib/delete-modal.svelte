@@ -19,7 +19,7 @@
 
   const successMessage = `${capitalize(thingName)} ${name} deleted`
   const message = name
-    ? `${capitalize(thingName)} ${name} will be permanently deleted.`
+    ? `${capitalize(thingName)} "${name}" will be permanently deleted.`
     : `This ${thingName} will be permanently deleted.`
 </script>
 

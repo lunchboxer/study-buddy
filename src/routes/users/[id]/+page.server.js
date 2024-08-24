@@ -21,34 +21,6 @@ export async function load({ params }) {
 export const actions = {
   delete: async ({ request }) => deleteAction(request, 'user'),
 
-  // updatePassword: async ({ request }) => {
-  //   const formData = await parseForm(userUpdatePasswordSchema, request)
-  //   if (formData.errors) {
-  //     return fail(400, formData)
-  //   }
-  //   const { id, password } = formData
-  //   const hashedPassword = await hashPassword(password)
-  //
-  //   // check if user exists
-  //   const existingUserResult = await client.execute(
-  //     sql`SELECT id FROM user WHERE id = ${id};`,
-  //   )
-  //   if (existingUserResult?.rows?.length === 0) {
-  //     return fail(404, { error: { all: 'User not found' } })
-  //   }
-  //   const errors = await usernameUnique({ username: formData.username, id })
-  //   if (errors) {
-  //     return fail(400, errors)
-  //   }
-  //   const result = await client.execute(
-  //     sql`
-  //       UPDATE user SET password = ${hashedPassword} WHERE id = ${id};
-  //     `,
-  //   )
-  //   if (result.rowsAffected === 0) {
-  //     return fail(500, { error: { all: 'Could not update user password.' } })
-  //   }
-  // },
   updatePassword: async ({ request }) => {
     const formData = await parseForm(userUpdatePasswordSchema, request)
     const hashedPassword = await hashPassword(formData.password)
@@ -77,7 +49,6 @@ export const actions = {
     const { id } = params
 
     try {
-      // check if user exists
       const existingUserResult = await client.execute(
         sql`SELECT id FROM user WHERE id = ${id};`,
       )

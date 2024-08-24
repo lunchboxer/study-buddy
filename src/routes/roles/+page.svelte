@@ -13,7 +13,7 @@
 {#if data.roles?.length > 0}
   <ul>
     {#each data.roles as role}
-      <li>{role.name}</li>
+      <li><a href="/roles/{role.id}">{role.name}</a></li>
     {/each}
   </ul>
 {:else}
