@@ -11,11 +11,12 @@
 
 {#if data.users?.length !== 0}
   <div class="overflow-x-auto w-full">
-    <table class="table-auto table table-zebra w-full">
+    <table class="table table-zebra w-full">
       <thead>
         <tr>
           <th>Username</th>
           <th>Name</th>
+          <th>Roles</th>
           <th>Email</th>
         </tr>
       </thead>
@@ -23,6 +24,7 @@
         <tr>
           <td><a href="/users/{user.id}">{user.username}</a></td>
           <td>{user.name}</td>
+          <td>{user.roles || '-'}</td>
           <td>{user.email || '-'}</td>
         </tr>
       {/each}
