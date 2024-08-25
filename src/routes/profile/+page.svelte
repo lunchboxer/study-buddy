@@ -24,6 +24,16 @@
         <td>Name</td>
         <td>{data.me.name || '-'}</td>
       </tr>
+      <tr>
+        <td>Email</td>
+        <td>{data.me.email || '-'}</td>
+      </tr>
+      <tr>
+        <td>Roles</td>
+        <td>
+          {data.me.roles?.join(', ') || '-'}
+        </td>
+      </tr>
     </tbody>
   </table>
 {/if}

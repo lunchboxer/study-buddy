@@ -1,9 +1,10 @@
 import { client, sql } from '$lib/data'
-import { userCreateSchema } from '$lib/schema'
 import { usernameUnique } from '$lib/data/validations'
-import { addAction } from '$lib/server-utils'
+import { userCreateSchema } from '$lib/schema'
+import { addAction, isAdminOrError } from '$lib/server-utils'
 
-export const load = async () => {
+export const load = async ({ locals }) => {
+  await isAdminOrError(locals.user.id)
   const result = await client.execute(
     sql`SELECT * FROM user ORDER BY username;`,
   )

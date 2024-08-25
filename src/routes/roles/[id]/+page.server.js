@@ -1,8 +1,8 @@
 import { dev } from '$app/environment'
 import { client, sql } from '$lib/data'
 import { roleNameUnique } from '$lib/data/validations'
-import { roleUpdateSchema, roleAddUserSchema } from '$lib/schema'
-import { deleteAction, updateAction, parseForm } from '$lib/server-utils'
+import { roleUpdateSchema, userRoleSchema } from '$lib/schema'
+import { deleteAction, parseForm, updateAction } from '$lib/server-utils'
 import { error, fail } from '@sveltejs/kit'
 
 export async function load({ params }) {
@@ -48,16 +48,16 @@ export async function load({ params }) {
     `,
   )
   const role = roleResult?.rows?.[0]
-  role.users = JSON.parse(role.users)
+  role.users = JSON.parse(role.users).filter(user => user.id)
   return { role, otherUsers: otherUsers?.rows || [] }
 }
 
 export const actions = {
-  delete: async ({ request }) => deleteAction(request, 'user'),
+  delete: async ({ request }) => deleteAction(request, 'role'),
   update: ({ request }) =>
     updateAction(request, 'role', roleUpdateSchema, roleNameUnique),
   addUser: async ({ request }) => {
-    const formData = await parseForm(roleAddUserSchema, request)
+    const formData = await parseForm(userRoleSchema, request)
     const existingUserResult = await client.execute(
       sql`SELECT id FROM user WHERE id = ${formData.user_id};`,
     )

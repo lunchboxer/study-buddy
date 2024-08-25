@@ -23,8 +23,10 @@
 <li><a href="/assignments">Assignments</a></li>
 <li><a href="/running-records">Running records</a></li>
 <li><a href="/running-record-texts">Running record texts</a></li>
-<li><a href="/users">Users</a></li>
-<li><a href="/roles">Roles</a></li>
+{#if me.roles.includes('admin')}
+  <li><a href="/users">Users</a></li>
+  <li><a href="/roles">Roles</a></li>
+{/if}
 
 <br />
 <div class="divider">{me?.username}</div>

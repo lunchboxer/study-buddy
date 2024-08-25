@@ -3,6 +3,7 @@
   import Form from '$lib/form.svelte'
   import TextInput from '$lib/text-input.svelte'
   import DeleteModal from '$lib/delete-modal.svelte'
+
   export let data
 </script>
 
@@ -20,16 +21,30 @@
     <TextInput label="Email" name="email" value={data.user.email} />
   </Form>
 
+  <h2>Update password</h2>
+
   <Form
     id="update-password-form"
     action="?/updatePassword"
-    submitLabel="Update password"
+    submitLabel="Update"
     successMessage="Password updated"
   >
     <input type="hidden" name="id" value={data.user.id} />
     <TextInput label="New password" name="password" type="password" required />
   </Form>
-{/if}
 
-<hr />
-<DeleteModal thing={data.user} thingName="user" />
+  <h2>Roles</h2>
+
+  {#if data.user.roles?.length > 0}
+    <ul>
+      {#each data.user.roles as role}
+        <li><a href="/roles/{role.id}">{role.name}</a></li>
+      {/each}
+    </ul>
+  {:else}
+    <p>No roles found.</p>
+  {/if}
+
+  <hr />
+  <DeleteModal thing={data.user} thingName="user" />
+{/if}

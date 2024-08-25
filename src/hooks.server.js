@@ -14,12 +14,27 @@ const getUserFromToken = async token => {
       return
     }
     const result = await client.execute(
-      sql`SELECT * FROM user WHERE id = ${userId} LIMIT 1`,
+      sql`
+        SELECT 
+            u.*,
+            GROUP_CONCAT(r.name) AS roles
+        FROM 
+            user u
+        LEFT JOIN 
+            user_role ur ON u.id = ur.user_id
+        LEFT JOIN 
+            role r ON ur.role_id = r.id
+        WHERE 
+            u.id = ${userId}
+        GROUP BY 
+            u.id;
+      `,
     )
     const user = result?.rows?.[0]
     if (!user) {
       return
     }
+    user.roles = user.roles?.split(',') || []
     const { password, ...authenticatedUser } = user
     return authenticatedUser
   } catch (error) {

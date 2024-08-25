@@ -1,11 +1,11 @@
-import { sql, client } from '$lib/data'
-import { error, redirect } from '@sveltejs/kit'
-import { v2 as cloudinary } from 'cloudinary'
 import {
   CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET,
   CLOUDINARY_CLOUD_NAME,
 } from '$env/static/private'
+import { client, sql } from '$lib/data'
+import { error, redirect } from '@sveltejs/kit'
+import { v2 as cloudinary } from 'cloudinary'
 
 export async function load({ url }) {
   const studentId = url.searchParams.get('studentId')

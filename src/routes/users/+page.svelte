@@ -32,7 +32,7 @@
 
 <h2>Add a new user</h2>
 
-<Form action="?/create" submitLabel="Add" successMessage="User created">
+<Form action="?/create" submitLabel="Add" successMessage="User created" id="create-user-form">
   <TextInput label="Username" name="username" required />
   <TextInput label="Password" name="password" required type="password" />
   <TextInput label="Name" name="name" required />

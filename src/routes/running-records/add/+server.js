@@ -2,8 +2,8 @@ import { dev } from '$app/environment'
 import { client } from '$lib/data'
 import { runningRecordCreateSchema } from '$lib/schema'
 import { parsePost } from '$lib/server-utils'
-import { error, json } from '@sveltejs/kit'
 import { generateInsertSql } from '$lib/server-utils'
+import { error, json } from '@sveltejs/kit'
 
 /** @type {import('./$types').RequestHandler} */
 export const POST = async ({ request }) => {

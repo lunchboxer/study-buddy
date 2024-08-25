@@ -63,7 +63,7 @@ export const roleUpdateSchema = roleCreateSchema.extend({
   id: z.string(),
 })
 
-export const roleAddUserSchema = z.object({
+export const userRoleSchema = z.object({
   role_id: z.string().length(12),
   user_id: z.string().length(12),
 })

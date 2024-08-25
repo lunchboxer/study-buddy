@@ -1,5 +1,5 @@
-import { error, json } from '@sveltejs/kit'
 import { client, sql } from '$lib/data'
+import { error, json } from '@sveltejs/kit'
 
 function parseWord(word) {
   if (!word) {

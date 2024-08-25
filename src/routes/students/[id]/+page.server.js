@@ -1,5 +1,4 @@
 import { dev } from '$app/environment'
-import { error } from '@sveltejs/kit'
 import { client, sql } from '$lib/data'
 import {
   addStudentToGroupSchema,
@@ -7,6 +6,7 @@ import {
   toggleArchiveStudentSchema,
 } from '$lib/schema'
 import { parseForm, updateAction } from '$lib/server-utils'
+import { error } from '@sveltejs/kit'
 import { fail } from '@sveltejs/kit'
 
 export async function load({ params }) {

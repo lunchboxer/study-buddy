@@ -3,18 +3,44 @@ import { hashPassword } from '$lib/crypto'
 import { client, sql } from '$lib/data'
 import { usernameUnique } from '$lib/data/validations'
 import { userUpdatePasswordSchema, userUpdateSchema } from '$lib/schema'
-import { deleteAction, parseForm } from '$lib/server-utils'
+import { deleteAction, isAdminOrError, parseForm } from '$lib/server-utils'
 import { error, fail } from '@sveltejs/kit'
 
-export async function load({ params }) {
+export async function load({ params, locals }) {
+  await isAdminOrError(locals.user.id)
   const userResult = await client.execute(
-    sql`SELECT * FROM user WHERE id = ${params.id};`,
+    sql`
+      SELECT 
+          u.id,
+          u.username,
+          u.name,
+          u.email,
+          u.active_school_year,
+          u.created,
+          json_group_array(
+              json_object(
+                  'id', r.id,
+                  'name', r.name
+              )
+          ) AS roles
+      FROM 
+          user u
+      LEFT JOIN 
+          user_role ur ON u.id = ur.user_id
+      LEFT JOIN 
+          role r ON ur.role_id = r.id
+      WHERE 
+          u.id = ${params.id}
+      GROUP BY 
+          u.id;
+    `,
   )
   if (!userResult?.rows?.[0]) {
     throw error(404, 'User not found.')
   }
   const unsafeUser = userResult?.rows?.[0]
   const { password, ...user } = unsafeUser
+  user.roles = JSON.parse(user.roles).filter(role => role.id)
   return { user }
 }
 

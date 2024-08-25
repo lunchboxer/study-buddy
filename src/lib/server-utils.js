@@ -1,6 +1,6 @@
 import { dev } from '$app/environment'
-import { client } from '$lib/data'
-import { fail } from '@sveltejs/kit'
+import { client, sql } from '$lib/data'
+import { error, fail } from '@sveltejs/kit'
 import { nanoid } from 'nanoid'
 
 export function generateInsertSql(data, tableName) {
@@ -144,5 +144,39 @@ export const addAction = async (
     return fail(500, {
       errors: { all: 'New record was not added.' },
     })
+  }
+}
+
+export const userHasRole = async (userId, roleName) => {
+  const result = await client.execute(
+    sql`
+      SELECT
+        user_role.*,
+        role.name AS role_name
+      FROM
+        user_role
+        LEFT JOIN role ON user_role.role_id = role.id
+      WHERE
+        user_id = ${userId}
+        AND role.name = ${roleName};
+    `,
+  )
+  return !!result?.rows?.length > 0
+}
+
+export const isAdminOrFail = async userId => {
+  const isAdmin = await userHasRole(userId, 'admin')
+  if (!isAdmin) {
+    return fail(403, { errors: { all: 'You must be an admin to do that.' } })
+  }
+}
+
+export const isAdminOrError = async (
+  userId,
+  errorMessage = 'You must be an admin to do that',
+) => {
+  const isAdmin = await userHasRole(userId, 'admin')
+  if (!isAdmin) {
+    throw error(403, errorMessage)
   }
 }

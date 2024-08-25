@@ -83,8 +83,8 @@ CREATE TABLE `user_role` (
   `user_id` text NOT NULL,
   `role_id` text NOT NULL,
   PRIMARY KEY(`role_id`, `user_id`),
-  FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action,
-  FOREIGN KEY (`role_id`) REFERENCES `role`(`id`) ON UPDATE no action ON DELETE no action
+  FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade,
+  FOREIGN KEY (`role_id`) REFERENCES `role`(`id`) ON UPDATE no action ON DELETE cascade
 );
 
 CREATE TABLE `word` (
