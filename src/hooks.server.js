@@ -16,18 +16,18 @@ const getUserFromToken = async token => {
     const result = await client.execute(
       sql`
         SELECT 
-            u.*,
-            GROUP_CONCAT(r.name) AS roles
+          u.*,
+          GROUP_CONCAT(r.name) AS roles
         FROM 
-            user u
+          user u
         LEFT JOIN 
-            user_role ur ON u.id = ur.user_id
+          user_role ur ON u.id = ur.user_id
         LEFT JOIN 
-            role r ON ur.role_id = r.id
+          role r ON ur.role_id = r.id
         WHERE 
-            u.id = ${userId}
+          u.id = ${userId}
         GROUP BY 
-            u.id;
+          u.id;
       `,
     )
     const user = result?.rows?.[0]

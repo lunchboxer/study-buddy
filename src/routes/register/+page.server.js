@@ -2,6 +2,7 @@ import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
 import { generateJWT, hashPassword } from '$lib/crypto'
 import { client, sql } from '$lib/data/index'
+import { usernameUnique } from '$lib/data/validations'
 import { registerSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
@@ -14,15 +15,19 @@ export const actions = {
       return fail(400, formData)
     }
     const { username, name, password } = formData
-    const result = await client.execute(
-      sql`SELECT id FROM user WHERE username = ${username} LIMIT 1`,
-    )
-
-    if (result?.rows?.length > 0) {
-      return fail(400, {
-        ...formData,
-        errors: { username: 'Username already taken.' },
-      })
+    // const result = await client.execute(
+    //   sql`SELECT id FROM user WHERE username = ${username} LIMIT 1`,
+    // )
+    //
+    // if (result?.rows?.length > 0) {
+    //   return fail(400, {
+    //     ...formData,
+    //     errors: { username: 'Username already taken.' },
+    //   })
+    // }
+    const errors = await usernameUnique({ username })
+    if (errors) {
+      return fail(400, errors)
     }
 
     try {

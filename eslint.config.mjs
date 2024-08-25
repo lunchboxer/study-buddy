@@ -27,6 +27,12 @@ export default [
       ...standardConfig.rules,
       'security/detect-object-injection': 'off',
       'no-unused-vars': ['error', { ignoreRestSiblings: true }],
+      'unicorn/template-indent': [
+        'error',
+        {
+          indent: 2,
+        },
+      ],
     },
   },
 ]
