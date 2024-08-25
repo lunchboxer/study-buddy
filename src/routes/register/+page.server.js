@@ -15,16 +15,6 @@ export const actions = {
       return fail(400, formData)
     }
     const { username, name, password } = formData
-    // const result = await client.execute(
-    //   sql`SELECT id FROM user WHERE username = ${username} LIMIT 1`,
-    // )
-    //
-    // if (result?.rows?.length > 0) {
-    //   return fail(400, {
-    //     ...formData,
-    //     errors: { username: 'Username already taken.' },
-    //   })
-    // }
     const errors = await usernameUnique({ username })
     if (errors) {
       return fail(400, errors)
@@ -35,7 +25,7 @@ export const actions = {
       const newUserResult = await client.execute(
         sql`
           INSERT INTO user (id, username, name, password) 
-                  VALUES (${id}, ${username}, ${name}, ${await hashPassword(password)})
+          VALUES (${id}, ${username}, ${name}, ${await hashPassword(password)})
         `,
       )
       if (newUserResult.rowsAffected !== 1) {
