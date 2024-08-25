@@ -25,7 +25,7 @@ export const actions = {
       const newUserResult = await client.execute(
         sql`
           INSERT INTO user (id, username, name, password) 
-          VALUES (${id}, ${username}, ${name}, ${await hashPassword(password)})
+            VALUES (${id}, ${username}, ${name}, ${await hashPassword(password)})
         `,
       )
       if (newUserResult.rowsAffected !== 1) {
