@@ -1,11 +1,11 @@
+import js from '@eslint/js'
+import eslintPluginPromise from 'eslint-plugin-promise'
+import eslintPluginSecurity from 'eslint-plugin-security'
 import eslintPluginSvelte from 'eslint-plugin-svelte'
 import eslintPluginUnicorn from 'eslint-plugin-unicorn'
-import eslintPluginSecurity from 'eslint-plugin-security'
 import globals from 'globals'
-import js from '@eslint/js'
 import standardConfig from './eslint-standard.config.js'
 import svelteConfig from './svelte.config.js'
-import eslintPluginPromise from 'eslint-plugin-promise'
 
 export default [
   eslintPluginUnicorn.configs['flat/recommended'],
