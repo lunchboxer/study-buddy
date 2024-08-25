@@ -130,7 +130,7 @@ function base64UrlToUint8Array(base64UrlString) {
 }
 
 // according to https://cloudinary.com/documentation/authentication_signatures
-export async function generateSHA1Signature(apiSecret, parameters) {
+export async function generateUploadSignature(apiSecret, parameters) {
   // Create the string to sign
   const sortedKeys = Object.keys(parameters).sort()
   const stringToSign = `${sortedKeys.map(key => `${key}=${parameters[key]}`).join('&')}${apiSecret}`
@@ -139,8 +139,8 @@ export async function generateSHA1Signature(apiSecret, parameters) {
   const encoder = new TextEncoder()
   const data = encoder.encode(stringToSign)
 
-  // Generate SHA-1 hash
-  const hashBuffer = await crypto.subtle.digest('SHA-1', data)
+  // Generate SHA-256 hash
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data)
 
   // Convert hash to hexadecimal
   return [...new Uint8Array(hashBuffer)]

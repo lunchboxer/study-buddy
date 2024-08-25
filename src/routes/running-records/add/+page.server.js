@@ -5,7 +5,7 @@ import {
 } from '$env/static/private'
 import { client, sql } from '$lib/data'
 import { error, redirect } from '@sveltejs/kit'
-import { generateSHA1Signature } from '$lib/crypto'
+import { generateUploadSignature } from '$lib/crypto'
 
 export async function load({ url }) {
   const studentId = url.searchParams.get('studentId')
@@ -37,7 +37,7 @@ export async function load({ url }) {
     folder,
   }
 
-  const signature = await generateSHA1Signature(
+  const signature = await generateUploadSignature(
     CLOUDINARY_API_SECRET,
     signingParameters,
   )
