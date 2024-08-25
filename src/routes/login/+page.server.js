@@ -1,7 +1,7 @@
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
 import { generateJWT, passwordMatches } from '$lib/crypto'
-import { client, sql } from '$lib/data'
+import { client, sql } from '$lib/server/data'
 import { loginSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'

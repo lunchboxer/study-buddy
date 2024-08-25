@@ -1,4 +1,4 @@
-import { client, sql } from '$lib/data'
+import { client, sql } from '$lib/server/data'
 
 /** @type {import('./$types').LayoutServerLoad} */
 export async function load({ locals }) {

@@ -1,5 +1,5 @@
 import { dev } from '$app/environment'
-import { client, sql } from '$lib/data'
+import { client, sql } from '$lib/server/data'
 import {
   addStudentToGroupSchema,
   studentUpdateSchema,

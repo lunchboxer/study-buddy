@@ -1,5 +1,5 @@
 import { dev } from '$app/environment'
-import { client, sql } from '$lib/data'
+import { client, sql } from '$lib/server/data'
 import { studentCreateSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'

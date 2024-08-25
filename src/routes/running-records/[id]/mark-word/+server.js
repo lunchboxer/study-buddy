@@ -1,4 +1,4 @@
-import { client, sql } from '$lib/data'
+import { client, sql } from '$lib/server/data'
 import { error, json } from '@sveltejs/kit'
 
 function parseWord(word) {

@@ -1,7 +1,7 @@
 // validations.js  extra validation functions
 // take formData object
 // return the error object { errors: { field: 'error message' } }
-import { client, sql } from '$lib/data'
+import { client, sql } from '$lib/server/data'
 
 export const subjectNameUnique = async ({ name }) => {
   const sameNameSubjects = await client.execute(

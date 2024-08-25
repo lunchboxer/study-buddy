@@ -1,5 +1,5 @@
-import { client, sql } from '$lib/data'
-import { roleNameUnique } from '$lib/data/validations'
+import { client, sql } from '$lib/server/data'
+import { roleNameUnique } from '$lib/server/validations'
 import { roleCreateSchema } from '$lib/schema'
 import { addAction } from '$lib/server-utils'
 

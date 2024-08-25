@@ -1,5 +1,5 @@
-import { client, sql } from '$lib/data'
-import { subjectNameUnique } from '$lib/data/validations'
+import { client, sql } from '$lib/server/data'
+import { subjectNameUnique } from '$lib/server/validations'
 import { subjectUpdateSchema } from '$lib/schema'
 import { deleteAction, updateAction } from '$lib/server-utils'
 

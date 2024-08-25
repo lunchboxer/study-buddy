@@ -1,6 +1,6 @@
 import { hashPassword } from '$lib/crypto'
-import { client, sql } from '$lib/data'
-import { usernameUnique } from '$lib/data/validations'
+import { client, sql } from '$lib/server/data'
+import { usernameUnique } from '$lib/server/validations'
 import { userCreateSchema } from '$lib/schema'
 import { isAdminOrError, isAdminOrFail, parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'

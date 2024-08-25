@@ -1,4 +1,4 @@
-import { client, sql } from '$lib/data'
+import { client, sql } from '$lib/server/data'
 import { groupCreateSchema } from '$lib/schema'
 import { addAction } from '$lib/server-utils'
 

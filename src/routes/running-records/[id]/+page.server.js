@@ -1,4 +1,4 @@
-import { client, sql } from '$lib/data'
+import { client, sql } from '$lib/server/data'
 import { runningRecordUpdateSchema } from '$lib/schema'
 import { deleteAction, updateAction } from '$lib/server-utils'
 import { error } from '@sveltejs/kit'

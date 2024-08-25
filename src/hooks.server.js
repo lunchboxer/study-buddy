@@ -1,7 +1,7 @@
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
 import { verifyAndDecodeJWT } from '$lib/crypto'
-import { client, sql } from '$lib/data'
+import { client, sql } from '$lib/server/data'
 import { redirect } from '@sveltejs/kit'
 
 const getUserFromToken = async token => {

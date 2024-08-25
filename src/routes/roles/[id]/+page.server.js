@@ -1,6 +1,6 @@
 import { dev } from '$app/environment'
-import { client, sql } from '$lib/data'
-import { roleNameUnique } from '$lib/data/validations'
+import { client, sql } from '$lib/server/data'
+import { roleNameUnique } from '$lib/server/validations'
 import { roleUpdateSchema, userRoleSchema } from '$lib/schema'
 import { deleteAction, parseForm, updateAction } from '$lib/server-utils'
 import { error, fail } from '@sveltejs/kit'

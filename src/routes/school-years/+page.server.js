@@ -1,5 +1,5 @@
-import { client, sql } from '$lib/data'
-import { mustStartBeforeEnd } from '$lib/data/validations'
+import { client, sql } from '$lib/server/data'
+import { mustStartBeforeEnd } from '$lib/server/validations'
 import { schoolYearCreateSchema } from '$lib/schema'
 import { addAction } from '$lib/server-utils'
 

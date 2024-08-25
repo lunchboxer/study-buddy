@@ -1,5 +1,5 @@
 import { dev } from '$app/environment'
-import { client } from '$lib/data'
+import { client } from '$lib/server/data'
 import { runningRecordCreateSchema } from '$lib/schema'
 import { parsePost } from '$lib/server-utils'
 import { generateInsertSql } from '$lib/server-utils'

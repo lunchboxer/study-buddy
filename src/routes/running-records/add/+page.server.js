@@ -3,7 +3,7 @@ import {
   CLOUDINARY_API_SECRET,
   CLOUDINARY_CLOUD_NAME,
 } from '$env/static/private'
-import { client, sql } from '$lib/data'
+import { client, sql } from '$lib/server/data'
 import { error, redirect } from '@sveltejs/kit'
 import { generateUploadSignature } from '$lib/crypto'
 
