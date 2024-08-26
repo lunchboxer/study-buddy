@@ -10,7 +10,7 @@
   let audioUrl
   let isRecording = false
   let errorMessage = ''
-  const bitRate = 10_000
+  const bitRate = 12_000
   let isUploading = false
   let uploadStatus = ''
   let modal
