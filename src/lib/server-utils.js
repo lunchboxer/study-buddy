@@ -161,7 +161,7 @@ export const userHasRole = async (userId, roleName) => {
         AND role.name = ${roleName};
     `,
   )
-  return !!result?.rows?.length > 0
+  return result?.rows?.length > 0
 }
 
 export const isAdminOrFail = async userId => {

@@ -1,11 +1,15 @@
 import { client, sql } from '$lib/server/data'
 import { error, json } from '@sveltejs/kit'
 
+const wordMatchRegex = /\[(.*?)](.*?)\[\/.*?]/
+const unmarkRegex = /\[.*?]/
+const wordRegex = /\s+/
+
 function parseWord(word) {
   if (!word) {
     return {}
   }
-  const match = word.match(/\[(.*?)](.*?)\[\/.*?]/)
+  const match = word.match(wordMatchRegex)
   if (match) {
     return { type: match[1], text: match[2] }
   }
@@ -13,7 +17,7 @@ function parseWord(word) {
 }
 
 function unMarkAll(text) {
-  return text.replace(/\[.*?]/, '')
+  return text.replace(unmarkRegex, '')
 }
 
 /** @type {import('./$types').RequestHandler} */
@@ -36,7 +40,7 @@ export const POST = async ({ params, request }) => {
   let markedText
 
   if (type) {
-    const words = text.split(/\s+/)
+    const words = text.split(wordRegex)
     const word = parseWord(words[index])
     words[index] =
       type === 'unmark'
