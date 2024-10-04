@@ -11,6 +11,7 @@ vite.config.ts.timestamp-*
 bun.lockb
 *.db*
 *.sqlite
+.sql
 static/fonts/*
 notes.md
 .cloudflare
