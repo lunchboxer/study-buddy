@@ -20,7 +20,7 @@
 
 <div class="drawer lg:drawer-open">
   <input id="drawer" type="checkbox" class="drawer-toggle" bind:checked />
-  <div class="drawer-content max-w-[100vw] flex flex-col h-screen">
+  <div class="drawer-content max-w-[100vw] flex flex-col">
     {#if $page?.url?.pathname !== '/login' && $page?.url?.pathname !== '/register'}
       <Header me={data.me} bind:checked />
     {/if}
