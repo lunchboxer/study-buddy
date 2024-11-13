@@ -20,12 +20,14 @@
 
 <div class="drawer lg:drawer-open">
   <input id="drawer" type="checkbox" class="drawer-toggle" bind:checked />
-  <div class="drawer-content max-w-[100vw] flex flex-col">
-    {#if $page?.url?.pathname !== '/login' && $page?.url?.pathname !== '/register'}
+  <div class="drawer-content flex min-h-screen flex-col">
+    {#if $page?.url?.pathname !== '/login' && $page?.url?.pathname !== '/register' && $page?.url?.pathname !== '/s'}
       <Header me={data.me} bind:checked />
     {/if}
-    <main class="p-4 prose max-w-none md:px-16 flex-grow">
-      <slot />
+    <main class="flex-grow flex flex-col p-4 prose max-w-none md:px-16">
+      <div class="flex-grow">
+        <slot />
+      </div>
     </main>
     <Footer />
     <NotificationList />
@@ -43,7 +45,7 @@
               checked = ''
             }
           }}
-          class="menu p-4 pt-20 m-0 lg:pt-4 sticky top-0 z-10 backdrop-blur"
+          class="menu p-4 pt-20 m-0 lg:pt-4 fixed w-60 bg-base-300"
         >
           <SidebarNav me={data.me} />
         </ul>
