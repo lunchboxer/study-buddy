@@ -33,7 +33,7 @@
     <NotificationList />
     <LogoutModal />
   </div>
-  {#if data?.me?.id}
+  {#if data?.me?.id && $page?.url?.pathname !== '/s'}
     <div class="drawer-side z-40">
       <label for="drawer" aria-label="close sidebar" class="drawer-overlay"></label>
       <aside class="w-60 min-h-screen bg-base-300 shadow-sm">

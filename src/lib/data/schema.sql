@@ -73,7 +73,7 @@ CREATE TABLE user (
 	id TEXT PRIMARY KEY NOT NULL,
 	username TEXT NOT NULL,
 	name TEXT,
-  email TEXT,
+    email TEXT,
 	password TEXT NOT NULL,
 	active_school_year TEXT,
 	created TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL
