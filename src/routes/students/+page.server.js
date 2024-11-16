@@ -6,7 +6,15 @@ import { fail } from '@sveltejs/kit'
 import { nanoid } from 'nanoid'
 
 export async function load() {
-  const result = await client.execute(sql`SELECT * FROM student ORDER BY name;`)
+  const query = sql`
+    SELECT u.*
+    FROM user u
+    JOIN user_role ur ON u.id = ur.user_id
+    JOIN role r ON ur.role_id = r.id
+    WHERE r.name = 'student';
+  `
+
+  const result = await client.execute(query)
   return {
     students: result?.rows || [],
   }
@@ -19,21 +27,25 @@ export const actions = {
       return fail(400, formData)
     }
     try {
-      const id = nanoid(12)
-      const newStudentResult = await client.execute(
-        sql`INSERT INTO student (id, name) VALUES (${id}, ${formData.name});`,
-      )
+      const userId = nanoid(12)
+      const roleId = nanoid(12)
+      // need to insert a password too, since it's required on user table
+      const newStudentQuery = sql`
+        INSERT INTO user (id, name) VALUES (${userId}, ${formData.name});
+
+        INSERT OR IGNORE INTO role (id, name)
+          VALUES (${roleId}, 'student');
+
+        INSERT INTO user_role (user_id, role_id)
+          VALUES (${userId}, ${roleId});
+
+        INSERT INTO student_to_group (student_id, student_group_id)
+          VALUES (${userId}, ${formData.student_group_id});
+      `
+      const newStudentResult = await client.execute(newStudentQuery)
       if (newStudentResult.rowsAffected === 0) {
         return fail(500, {
           errors: { all: 'New student was not added to database.' },
-        })
-      }
-      const studentToGroupResult = await client.execute(
-        sql`INSERT INTO student_to_group (student_id, student_group_id) VALUES (${id}, ${formData.student_group_id});`,
-      )
-      if (studentToGroupResult.rowsAffected === 0) {
-        return fail(500, {
-          errors: { all: 'New student was not added to group.' },
         })
       }
       return { success: true }
