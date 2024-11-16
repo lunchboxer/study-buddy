@@ -13,6 +13,10 @@ export const loginSchema = z.object({
     .min(4, { message: 'Password is 4-20 characters' })
     .max(20, { message: 'Password is 4-20 characters' }),
 })
+export const studentLoginSchema = z.object({
+  studentId: z.string(),
+  password: z.string().trim(),
+})
 
 export const registerSchema = loginSchema.extend({
   name: z.string().trim().max(60),

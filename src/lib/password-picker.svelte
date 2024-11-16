@@ -43,12 +43,12 @@
   function handleSelection(text) {
     password = password.includes(text)
       ? password.filter((item) => item !== text)
-      : [...password, text]
+      : [...password, text].sort((a, b) => a.localeCompare(b))
   }
   $: console.log(password)
 </script>
 
-<div class="grid grid-cols-4 gap-4">
+<div class="grid grid-cols-4 gap-2 my-4">
   {#each passwordOptions as { icon, text }}
     <PasswordButton on:click={() => handleSelection(text)} {icon} {text} {password} />
   {/each}

@@ -8,9 +8,9 @@
 
 <button
   on:click
-  class="btn m-4 btn-square btn-lg"
+  class="btn m-2 btn-square btn-lg"
   class:btn-active={password.includes(text)}
-  class:btn-primary={password.includes(text)}
+  class:btn-accent={password.includes(text)}
 >
   <Fa {icon} size="2x" />
 </button>
