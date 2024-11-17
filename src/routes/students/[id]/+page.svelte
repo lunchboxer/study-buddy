@@ -4,6 +4,7 @@
   import Breadcrumbs from '$lib/breadcrumbs.svelte'
   import DeleteModal from '$lib/delete-modal.svelte'
   import Select from '$lib/select.svelte'
+  import PasswordToIcons from '$lib/password-to-icons.svelte'
 
   export let data
   $: student = data?.student
@@ -14,6 +15,7 @@
   const oneIsActive = (studentGroups) => {
     return studentGroups.some((g) => g.school_year_id === me.active_school_year)
   }
+  $: console.log(student)
 </script>
 
 <Breadcrumbs crumbs={[{ href: '/students', name: 'Students' }, { name: student?.name }]} />
@@ -87,6 +89,9 @@
   <p>There are no groups yet in the active school year to add students to.</p>
   <p>Please <a href="/groups">create a group</a> first.</p>
 {/if}
+
+<h2>Password</h2>
+<PasswordToIcons password={student?.password} />
 
 <hr />
 

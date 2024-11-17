@@ -11,7 +11,7 @@ export const load = async ({ locals }) => {
       rrt.title AS textTitle
     FROM
       running_record rr
-    JOIN student s ON rr.student_id = s.id
+    JOIN user s ON rr.student_id = s.id
     JOIN student_to_group stg ON s.id = stg.student_id
     JOIN student_group sg ON stg.student_group_id = sg.id
     JOIN running_record_text rrt ON rr.text_id = rrt.id
@@ -21,14 +21,13 @@ export const load = async ({ locals }) => {
   `)
 
   const activeStudents = await client.execute(sql`
-    SELECT DISTINCT student.*, sg.name AS group_name
+    SELECT DISTINCT user.*, sg.name AS group_name
     FROM user
-    JOIN student_group sg ON user.active_school_year = sg.school_year_id
-    JOIN student_to_group stg ON sg.id = stg.student_group_id
-    JOIN student ON stg.student_id = student.id
+    JOIN student_to_group stg ON user.id = stg.student_id
+    JOIN student_group sg ON stg.student_group_id = sg.id
     WHERE user.active_school_year = ${activeSchoolYear}
-      AND student.archived = 0
-    ORDER BY student.name;
+      AND user.archived = 0
+    ORDER BY user.name;
   `)
   const textsResult = await client.execute(
     sql`SELECT * FROM running_record_text ORDER BY lexile ASC;`,

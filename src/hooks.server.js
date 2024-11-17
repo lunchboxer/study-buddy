@@ -63,7 +63,8 @@ export async function handle({ event, resolve }) {
       routesNotProtected.has(event.url.pathname) ||
       event.locals.user?.active_school_year
     ) &&
-    event.url.pathname !== '/setup'
+    event.url.pathname !== '/setup' &&
+    event.url.pathname !== '/s'
   ) {
     redirectWithReturn(event, '/setup')
   }

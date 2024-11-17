@@ -27,3 +27,40 @@ export const sql = (strings, ...values) => {
     args: arguments_,
   }
 }
+
+export const sqlBatch = input => {
+  const statements = input.sql
+    .split(';')
+    .map(stmt => stmt.trim())
+    .filter(stmt => stmt.length > 0)
+
+  let currentArgumentIndex = 0
+  const batch = statements.map(stmt => {
+    const parameterCount = (stmt.match(/\?/g) || []).length
+
+    const statementArguments = input.args.slice(
+      currentArgumentIndex,
+      currentArgumentIndex + parameterCount,
+    )
+
+    currentArgumentIndex += parameterCount
+
+    return {
+      sql: `${stmt};`,
+      args: statementArguments,
+    }
+  })
+
+  if (currentArgumentIndex !== input.args.length) {
+    throw new Error(
+      `Mismatch between number of parameters and arguments. Used ${currentArgumentIndex} parameters but got ${input.args.length} arguments.`,
+    )
+  }
+
+  return batch
+}
+
+export const executeBatch = async input => {
+  const batch = sqlBatch(input)
+  return await client.batch(batch)
+}

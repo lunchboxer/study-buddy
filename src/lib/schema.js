@@ -15,7 +15,7 @@ export const loginSchema = z.object({
 })
 export const studentLoginSchema = z.object({
   studentId: z.string(),
-  password: z.string().trim(),
+  password: z.string().trim().min(3),
 })
 
 export const registerSchema = loginSchema.extend({

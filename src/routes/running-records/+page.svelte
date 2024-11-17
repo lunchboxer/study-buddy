@@ -23,27 +23,31 @@
 
 <h2>Add running record</h2>
 
-<label for="studentId" class="form-control w-full max-w-md mb-4">
-  <div class="label">
-    <span class="label-text">Student</span>
-  </div>
-  <select name="studentId" class="select select-bordered" bind:value={studentId}>
-    {#each studentOptions as { label, value }}
-      <option {value}>{label}</option>
-    {/each}
-  </select>
-</label>
+{#if data.students?.length}
+  <label for="studentId" class="form-control w-full max-w-md mb-4">
+    <div class="label">
+      <span class="label-text">Student</span>
+    </div>
+    <select name="studentId" class="select select-bordered" bind:value={studentId}>
+      {#each studentOptions as { label, value }}
+        <option {value}>{label}</option>
+      {/each}
+    </select>
+  </label>
 
-<label for="textId" class="form-control w-full max-w-md mb-4">
-  <div class="label">
-    <span class="label-text">Text</span>
-  </div>
-  <select name="textId" class="select select-bordered" bind:value={textId}>
-    {#each textOptions as { label, value }}
-      <option {value}>{label}</option>
-    {/each}
-  </select>
-</label>
+  <label for="textId" class="form-control w-full max-w-md mb-4">
+    <div class="label">
+      <span class="label-text">Text</span>
+    </div>
+    <select name="textId" class="select select-bordered" bind:value={textId}>
+      {#each textOptions as { label, value }}
+        <option {value}>{label}</option>
+      {/each}
+    </select>
+  </label>
+{:else}
+  <p>No students yet.</p>
+{/if}
 
 {#if studentId && textId}
   <a class="btn btn-primary" href="/running-records/add?studentId={studentId}&textId={textId}">

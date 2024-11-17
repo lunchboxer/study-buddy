@@ -4,7 +4,7 @@ import { generateJWT, passwordMatches } from '$lib/crypto'
 import { client, sql } from '$lib/server/data'
 import { loginSchema, studentLoginSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
-import { fail } from '@sveltejs/kit'
+import { fail, redirect } from '@sveltejs/kit'
 
 async function setCookie(cookies, userId) {
   const token = await generateJWT({ userId }, JWT_SECRET)
@@ -18,9 +18,15 @@ async function setCookie(cookies, userId) {
   })
 }
 export async function load() {
-  const result = await client.execute(sql`
-    SELECT name, id FROM student;
-  `)
+  const studentQuery = sql`
+    SELECT u.*
+    FROM user u
+    JOIN user_role ur ON u.id = ur.user_id
+    JOIN role r ON ur.role_id = r.id
+    WHERE r.name = 'student'
+    ORDER BY u.name;
+  `
+  const result = await client.execute(studentQuery)
   const students = result?.rows || []
   return { students }
 }
@@ -42,7 +48,7 @@ export const actions = {
         errors: { all: 'Student not found.' },
       })
     }
-    if (!(await passwordMatches(password, user.password))) {
+    if (password !== user.password) {
       return fail(400, {
         ...formData,
         errors: { all: 'Wrong password.' },
@@ -51,7 +57,7 @@ export const actions = {
 
     await setCookie(cookies, user.id)
 
-    return { success: true }
+    throw redirect(303, '/s')
   },
 
   login: async ({ request, cookies }) => {

@@ -11,7 +11,7 @@ import { fail } from '@sveltejs/kit'
 
 export async function load({ params }) {
   const studentResult = await client.execute(
-    sql`SELECT * FROM student WHERE id = ${params.id};`,
+    sql`SELECT * FROM user WHERE id = ${params.id};`,
   )
   if (!studentResult?.rows?.[0]) {
     throw error(404, 'Student not found.')
@@ -39,7 +39,7 @@ export const actions = {
         sql`DELETE FROM student_to_group WHERE student_id = ${id};`,
       )
       const result = await client.execute(
-        sql`DELETE FROM student WHERE id = ${id};`,
+        sql`DELETE FROM user WHERE id = ${id};`,
       )
       if (result.changes === 0) {
         return fail(500, { errors: { all: 'Could not delete record' } })
@@ -51,7 +51,7 @@ export const actions = {
     }
   },
   update: async ({ request }) =>
-    updateAction(request, 'student', studentUpdateSchema),
+    updateAction(request, 'user', studentUpdateSchema),
   addGroup: async ({ request }) => {
     const formData = await parseForm(addStudentToGroupSchema, request)
     if (formData.errors) {
@@ -106,7 +106,7 @@ export const actions = {
     }
     try {
       const result = await client.execute(
-        sql`UPDATE student SET archived = ${formData.archived} WHERE id = ${formData.student_id};`,
+        sql`UPDATE user SET archived = ${formData.archived} WHERE id = ${formData.student_id};`,
       )
       if (result.rowsAffected === 0) {
         return fail(500, { errors: { all: 'Could not update student' } })

@@ -9,23 +9,31 @@ import { nanoid } from 'nanoid'
 export const load = async ({ locals }) => {
   await isAdminOrError(locals.user.id)
   const result = await client.execute(sql`
-    SELECT 
+    SELECT
       u.id,
       u.username,
       u.name,
       u.email,
       u.active_school_year,
       u.created,
-      GROUP_CONCAT(r.name, ', ') AS roles
-    FROM 
+      GROUP_CONCAT (r.name, ', ') AS roles
+    FROM
       user u
-    LEFT JOIN 
-      user_role ur ON u.id = ur.user_id
-    LEFT JOIN 
-      role r ON ur.role_id = r.id
-    GROUP BY 
+      LEFT JOIN user_role ur ON u.id = ur.user_id
+      LEFT JOIN role r ON ur.role_id = r.id
+    WHERE
+      u.id NOT IN (
+        SELECT
+          ur.user_id
+        FROM
+          user_role ur
+          JOIN role r ON ur.role_id = r.id
+        WHERE
+          r.name = 'student'
+      )
+    GROUP BY
       u.id
-    ORDER BY 
+    ORDER BY
       u.username;
   `)
   const usersResult = result?.rows || []
