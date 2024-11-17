@@ -3,6 +3,7 @@
   import Form from '$lib/form.svelte'
   import TextInput from '$lib/text-input.svelte'
   import Select from '$lib/select.svelte'
+  import WordList from '$lib/word-list.svelte'
 
   export let data
   let words = ''
@@ -18,6 +19,7 @@
 <h1>Words</h1>
 
 <p>There are {data.words?.length} words in the database.</p>
+<WordList {data} />
 
 <h2>Tags</h2>
 <p>There are {data.tags?.length} tags in the database.</p>

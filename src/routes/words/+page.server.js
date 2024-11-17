@@ -5,9 +5,30 @@ import { fail } from '@sveltejs/kit'
 import { nanoid } from 'nanoid'
 
 export const load = async () => {
-  const result = await client.execute(sql`SELECT * FROM word ORDER BY word;`)
+  const result = await client.execute(sql`
+    SELECT 
+        w.id,
+        w.word,
+        json_group_array(
+          json_object(
+            'id', wt.id,
+            'name', wt.name,
+            'parent_tag_id', wt.parent_tag_id
+          )
+        ) as tags
+      FROM word w
+      LEFT JOIN word_tag_to_word wttw ON w.id = wttw.word_id
+      LEFT JOIN word_tag wt ON wttw.word_tag_id = wt.id
+      GROUP BY w.id
+  `)
+
   const words = result?.rows || []
-  const tagsResult = await client.execute(sql`SELECT * FROM word_tag;`)
+  for (const word of words) {
+    word.tags = JSON.parse(word.tags).filter(tag => tag.id !== null)
+  }
+  const tagsResult = await client.execute(
+    sql`SELECT * FROM word_tag ORDER BY name;`,
+  )
   const tags = tagsResult?.rows || []
   return { words, tags }
 }
