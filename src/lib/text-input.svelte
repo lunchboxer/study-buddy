@@ -31,7 +31,7 @@
 <label for={id} class="form-control w-full max-w-md mb-4">
   <div class="label">
     <span class="label-text">{label}</span>
-    <span class="label-text-alt error-text">{$page?.form?.errors?.[id] || error}</span>
+    <span class="label-text-alt text-error">{$page?.form?.errors?.[id] || error}</span>
   </div>
   {#if type === 'password'}
     <div
@@ -99,18 +99,9 @@
 
   {#if description}
     <label class="label" for={name}>
-      <span class="label-text-alt help-text" id={descriptionId}>
+      <span class="label-text-alt text-info" id={descriptionId}>
         {description}
       </span>
     </label>
   {/if}
 </label>
-
-<style>
-  .error-text {
-    color: oklch(var(--er));
-  }
-  .help-text {
-    color: oklch(var(--in));
-  }
-</style>

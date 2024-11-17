@@ -159,3 +159,9 @@ export const runningRecordTextUpdateSchema =
   runningRecordTextCreateSchema.extend({
     id: z.string().length(12),
   })
+
+export const wordCreateSchema = z.object({
+  words: z.string().min(1, { message: 'Words are required' }),
+  existingTagId: z.string().optional(),
+  newTagName: z.string().optional(),
+})
