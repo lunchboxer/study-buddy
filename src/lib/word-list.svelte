@@ -1,6 +1,6 @@
 <script>
   import Fa from 'svelte-fa'
-  import { faMagnifyingGlass, faTrash, faPencil, faTag } from '@fortawesome/free-solid-svg-icons'
+  import { faMagnifyingGlass, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons'
 
   export let data
   let searchTerm = ''
@@ -27,16 +27,18 @@
     <Fa icon={faMagnifyingGlass} />
   </label>
 
-  <p>
-    <Fa icon={faTag} pull="left" class="mr-2" size="1.5x" /> Filter by tag:
-    {#each data.tags as tag}
-      <div class="badge badge-neutral" class:badge-primary={selectedTagIds.includes(tag.id)}>
-        <button on:click={() => toggleTag(tag.id)}>
-          {tag.name}
-        </button>
-      </div>
-    {/each}
-  </p>
+  {#if data.tags?.length > 0}
+    <div class="flex gap-2 mb-4 tag-list">
+      Filter by tag:
+      {#each data.tags as tag}
+        <div class="badge badge-neutral" class:badge-primary={selectedTagIds.includes(tag.id)}>
+          <button on:click={() => toggleTag(tag.id)}>
+            {tag.name}
+          </button>
+        </div>
+      {/each}
+    </div>
+  {/if}
 
   <!-- Results count -->
   <div class="text-sm text-gray-600">
@@ -91,3 +93,9 @@
     </div>
   {/if}
 {/if}
+
+<style>
+  .tag-list {
+    align-items: baseline;
+  }
+</style>

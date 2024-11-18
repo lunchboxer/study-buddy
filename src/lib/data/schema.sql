@@ -21,19 +21,12 @@ CREATE TABLE school_year (
 	created TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
--- CREATE TABLE student (
--- 	id TEXT PRIMARY KEY NOT NULL,
--- 	name TEXT NOT NULL,
--- 	archived integer DEFAULT 0 NOT NULL,
--- 	created TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL
--- );
-
 CREATE TABLE student_to_group (
 	student_id TEXT NOT NULL,
 	student_group_id TEXT NOT NULL,
 	PRIMARY KEY(student_group_id, student_id),
 	FOREIGN KEY (student_id) REFERENCES user(id) ON UPDATE no action ON DELETE cascade,
-	FOREIGN KEY (student_group_id) REFERENCES student_group(id) ON UPDATE no action ON DELETE cascade 
+	FOREIGN KEY (student_group_id) REFERENCES student_group(id) ON UPDATE no action ON DELETE cascade
 );
 
 CREATE TABLE student_group (
@@ -74,10 +67,10 @@ CREATE TABLE user (
 	id TEXT PRIMARY KEY NOT NULL,
 	username TEXT NOT NULL,
 	name TEXT,
-  email TEXT,
+    email TEXT,
 	password TEXT NOT NULL,
 	active_school_year TEXT,
-  archived INTEGER DEFAULT 0 NOT NULL,
+    archived INTEGER DEFAULT 0 NOT NULL,
 	created TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
