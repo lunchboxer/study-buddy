@@ -1,5 +1,6 @@
 import { client, sql } from '$lib/server/data'
-import { wordCreateSchema } from '$lib/schema'
+import { dev } from '$app/environment'
+import { wordCreateSchema, wordTagCreateSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
 import { nanoid } from 'nanoid'
@@ -34,7 +35,6 @@ export const load = async () => {
 }
 
 export const actions = {
-  // create: ({ request }) => addAction(request, 'word', wordCreateSchema),
   create: async ({ request }) => {
     // words, existingTagId, newTagName
     const formData = await parseForm(wordCreateSchema, request)
@@ -102,4 +102,48 @@ export const actions = {
     await client.execute(insertWordsQuery)
     return { success: true }
   },
+
+  addTag: async ({ request }) => {
+    const formData = await parseForm(wordTagCreateSchema, request)
+    if (formData.errors) {
+      return fail(400, formData)
+    }
+    const { name } = formData
+
+    const insertTagQuery = sql`
+      INSERT OR IGNORE INTO word_tag (id, name)
+      VALUES (${nanoid(12)}, ${name})
+    `
+    const insertTagResult = await client.execute(insertTagQuery)
+    if (insertTagResult.rowsAffected === 0) {
+      dev && console.error(insertTagResult)
+      return fail(500, {
+        errors: { name: 'A tag with this name already exists' },
+      })
+    }
+    return { success: true }
+  },
+
+  //   delete: async ({ request }) => {
+  //     const { id } = await request.formData()
+  //     const deleteWordQuery = sql`
+  //       DELETE FROM word WHERE id = ${id};
+  //     `
+  //     const deleteWordResult = await client.execute(deleteWordQuery)
+  //     if (deleteWordResult.rowsAffected === 0) {
+  //       return fail(500, {
+  //         errors: { id: 'Could not delete word' },
+  //       })
+  //     }
+  //     return { success: true }
+  //   },
+  //   deleteTag: async ({ request }) => {
+  //     const { id } = await request.formData()
+  //     const deleteTagQuery = sql`
+  //       DELETE FROM word_tag WHERE id = ${id};
+  //     `
+  //     const deleteTagResult = await client.execute(deleteTagQuery)
+  //     if (deleteTag
+  // `
+  //   },
 }

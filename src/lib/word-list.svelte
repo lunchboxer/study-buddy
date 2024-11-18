@@ -5,19 +5,34 @@
   export let data
   let searchTerm = ''
   let selectedTagIds = []
+  let showOnlyUntagged = false
+  let isAndMode = false // false = OR (default), true = AND. Words can match any tags in OR mode, but must match all tags in AND mode.
 
   // Reactive statements to filter words
   $: filteredWords = data.words.filter((word) => {
     const matchesSearch =
       searchTerm === '' || word.word.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesTags = selectedTagIds.every((tagId) => word.tags.some((tag) => tag.id === tagId))
+    if (showOnlyUntagged) {
+      return matchesSearch && word.tags.length === 0
+    }
+    const matchesTags =
+      selectedTagIds.length === 0 ||
+      (isAndMode
+        ? selectedTagIds.every((tagId) => word.tags.some((tag) => tag.id === tagId)) // AND mode
+        : selectedTagIds.some((tagId) => word.tags.some((tag) => tag.id === tagId))) // OR mode
     return matchesSearch && matchesTags
   })
 
   function toggleTag(tagId) {
+    showOnlyUntagged = false
     selectedTagIds = selectedTagIds.includes(tagId)
       ? selectedTagIds.filter((id) => id !== tagId)
       : [...selectedTagIds, tagId]
+  }
+
+  function toggleShowOnlyUntagged() {
+    showOnlyUntagged = !showOnlyUntagged
+    selectedTagIds = []
   }
 </script>
 
@@ -30,6 +45,9 @@
   {#if data.tags?.length > 0}
     <div class="flex gap-2 mb-4 tag-list">
       Filter by tag:
+      <div class="badge badge-neutral" class:badge-primary={showOnlyUntagged}>
+        <button on:click={toggleShowOnlyUntagged}> no tags </button>
+      </div>
       {#each data.tags as tag}
         <div class="badge badge-neutral" class:badge-primary={selectedTagIds.includes(tag.id)}>
           <button on:click={() => toggleTag(tag.id)}>
@@ -38,6 +56,15 @@
         </div>
       {/each}
     </div>
+
+    {#if !showOnlyUntagged}
+      <div class="form-control">
+        <label class="label cursor-pointer gap-2">
+          <span class="label-text">Match All Tags</span>
+          <input type="checkbox" class="toggle toggle-primary" bind:checked={isAndMode} />
+        </label>
+      </div>
+    {/if}
   {/if}
 
   <!-- Results count -->

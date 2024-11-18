@@ -4,6 +4,7 @@
   import TextInput from '$lib/text-input.svelte'
   import Select from '$lib/select.svelte'
   import WordList from '$lib/word-list.svelte'
+  import AddWordTag from '$lib/add-word-tag.svelte'
 
   export let data
   let words = ''
@@ -23,6 +24,8 @@
 
 <h2>Tags</h2>
 <p>There are {data.tags?.length} tags in the database.</p>
+
+<AddWordTag />
 
 <h2>Add word(s)</h2>
 <Form
