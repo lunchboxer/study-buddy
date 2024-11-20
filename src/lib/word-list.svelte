@@ -43,7 +43,7 @@
   </label>
 
   {#if data.tags?.length > 0}
-    <div class="flex gap-2 mb-4 tag-list">
+    <div class="flex gap-2 mb-4 tag-list flex-wrap">
       Filter by tag:
       <div class="badge badge-neutral" class:badge-primary={showOnlyUntagged}>
         <button on:click={toggleShowOnlyUntagged}> no tags </button>
