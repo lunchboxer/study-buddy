@@ -1,5 +1,8 @@
 import { client, sql } from '$lib/server/data'
-import { error } from '@sveltejs/kit'
+import { error, fail } from '@sveltejs/kit'
+import { wordTagUpdateSchema, addParentTagSchema } from '$lib/schema'
+import { wordTagNameUnique } from '$lib/server/validations'
+import { deleteAction, updateAction, parseForm } from '$lib/server-utils'
 
 export const load = async ({ params }) => {
   const tagId = params.id
@@ -34,9 +37,43 @@ export const load = async ({ params }) => {
         wt.name;
   `)
   const tag = tagResult?.rows?.[0]
-
   if (!tagResult?.rows?.[0]) {
     throw error(404, 'Word tag not found.')
   }
-  return { tag }
+
+  const tagsQuery = sql`
+    SELECT 
+      id,
+      name
+    FROM 
+      word_tag
+    ORDER BY 
+      name;
+  `
+  const tagsResult = await client.execute(tagsQuery)
+  const tags = tagsResult?.rows
+  return { tag, tags }
+}
+
+export const actions = {
+  delete: async ({ request }) => deleteAction(request, 'word_tag'),
+  update: async ({ request }) =>
+    updateAction(request, 'word_tag', wordTagUpdateSchema, wordTagNameUnique),
+  addParentTag: async ({ request }) => {
+    const formData = await parseForm(addParentTagSchema, request)
+    if (formData.errors) {
+      return fail(400, formData)
+    }
+    const { tag_id, parent_tag_id } = formData
+    const addParentTagQuery = sql`
+      UPDATE word_tag SET parent_tag_id = ${parent_tag_id} WHERE id = ${tag_id};
+    `
+    const addParentTagResult = await client.execute(addParentTagQuery)
+    if (addParentTagResult.rowsAffected === 0) {
+      return fail(500, {
+        errors: { all: 'Could not add parent tag' },
+      })
+    }
+    return { success: true }
+  },
 }

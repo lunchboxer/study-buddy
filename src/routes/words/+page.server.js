@@ -1,6 +1,5 @@
 import { client, sql } from '$lib/server/data'
-import { dev } from '$app/environment'
-import { wordCreateSchema, wordTagCreateSchema } from '$lib/schema'
+import { wordCreateSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
 import { nanoid } from 'nanoid'
@@ -100,27 +99,6 @@ export const actions = {
       await client.execute(insertWordTagQuery)
     }
     await client.execute(insertWordsQuery)
-    return { success: true }
-  },
-
-  addTag: async ({ request }) => {
-    const formData = await parseForm(wordTagCreateSchema, request)
-    if (formData.errors) {
-      return fail(400, formData)
-    }
-    const { name } = formData
-
-    const insertTagQuery = sql`
-      INSERT OR IGNORE INTO word_tag (id, name)
-      VALUES (${nanoid(12)}, ${name})
-    `
-    const insertTagResult = await client.execute(insertTagQuery)
-    if (insertTagResult.rowsAffected === 0) {
-      dev && console.error(insertTagResult)
-      return fail(500, {
-        errors: { name: 'A tag with this name already exists' },
-      })
-    }
     return { success: true }
   },
 

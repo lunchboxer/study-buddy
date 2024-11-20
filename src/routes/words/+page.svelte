@@ -23,9 +23,10 @@
 <WordList {data} />
 
 <h2>Tags</h2>
-<p>There are {data.tags?.length} tags in the database.</p>
-
-<AddWordTag />
+<p>
+  There are {data.tags?.length} tags in the database.
+  <a href="/words/tags">View tags</a>
+</p>
 
 <h2>Add word(s)</h2>
 <Form

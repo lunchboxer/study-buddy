@@ -12,15 +12,29 @@
   $: filteredWords = data.words.filter((word) => {
     const matchesSearch =
       searchTerm === '' || word.word.toLowerCase().includes(searchTerm.toLowerCase())
+
     if (showOnlyUntagged) {
       return matchesSearch && word.tags.length === 0
     }
-    const matchesTags =
-      selectedTagIds.length === 0 ||
-      (isAndMode
-        ? selectedTagIds.every((tagId) => word.tags.some((tag) => tag.id === tagId)) // AND mode
-        : selectedTagIds.some((tagId) => word.tags.some((tag) => tag.id === tagId))) // OR mode
-    return matchesSearch && matchesTags
+
+    // New function to check if a word's tags include a tag that matches selected tags or their children
+    const matchesSelectedTags = (selectedTagIds) => {
+      if (selectedTagIds.length === 0) return true
+
+      const allRelevantTagIds = [
+        ...selectedTagIds,
+        // Add child tag IDs for each selected tag
+        ...data.tags
+          .filter((tag) => selectedTagIds.includes(tag.parent_tag_id))
+          .map((tag) => tag.id),
+      ]
+
+      return isAndMode
+        ? allRelevantTagIds.every((tagId) => word.tags.some((tag) => tag.id === tagId))
+        : allRelevantTagIds.some((tagId) => word.tags.some((tag) => tag.id === tagId))
+    }
+
+    return matchesSearch && matchesSelectedTags(selectedTagIds)
   })
 
   function toggleTag(tagId) {

@@ -15,7 +15,6 @@
   const oneIsActive = (studentGroups) => {
     return studentGroups.some((g) => g.school_year_id === me.active_school_year)
   }
-  $: console.log(student)
 </script>
 
 <Breadcrumbs crumbs={[{ href: '/students', name: 'Students' }, { name: student?.name }]} />

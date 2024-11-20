@@ -101,7 +101,7 @@ CREATE TABLE word_tag (
   id TEXT PRIMARY KEY NOT NULL,
   name TEXT NOT NULL UNIQUE,
   parent_tag_id TEXT,   -- Optional, for hierarchical relationships, like sublists and levels
-  order_index INTEGER,  -- Optional, for ordering within a parent_tag
+  order_index INTEGER NOT NULL DEFAULT 0,  -- Optional, for ordering within a parent_tag
   created TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
   FOREIGN KEY (parent_tag_id) REFERENCES word_tag(id) ON UPDATE no action ON DELETE no action
 );
@@ -109,7 +109,7 @@ CREATE TABLE word_tag (
 CREATE TABLE word_tag_to_word (
   word_tag_id TEXT NOT NULL,
   word_id TEXT NOT NULL,
-  order_index INTEGER, -- Optional, for ordering words within a tag
+  order_index INTEGER NOT NULL DEFAULT 0, -- Optional, for ordering words within a tag
   PRIMARY KEY(word_tag_id, word_id),
   FOREIGN KEY (word_tag_id) REFERENCES word_tag(id) ON UPDATE no action ON DELETE cascade,
   FOREIGN KEY (word_id) REFERENCES word(id) ON UPDATE no action ON DELETE cascade

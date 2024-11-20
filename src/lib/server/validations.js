@@ -33,6 +33,18 @@ export const roleNameUnique = async ({ name, id }) => {
   }
 }
 
+export const wordTagNameUnique = async ({ name, id }) => {
+  const sameNameWordTags = await client.execute(
+    sql`SELECT * FROM word_tag WHERE name = ${name};`,
+  )
+  if (
+    sameNameWordTags?.rows?.length > 0 &&
+    id !== sameNameWordTags?.rows?.[0].id
+  ) {
+    return { errors: { name: `A tag named "${name}" already exists` } }
+  }
+}
+
 export const mustStartBeforeEnd = ({ start_date, end_date }) => {
   if (new Date(start_date) > new Date(end_date)) {
     return {

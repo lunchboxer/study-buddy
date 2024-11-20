@@ -169,3 +169,17 @@ export const wordCreateSchema = z.object({
 export const wordTagCreateSchema = z.object({
   name: z.string().min(1, { message: 'Tag name is required' }),
 })
+
+export const wordTagUpdateSchema = wordTagCreateSchema.extend({
+  id: z.string().length(12),
+  order_index: z.coerce
+    .number()
+    .nullable()
+    // eslint-disable-next-line unicorn/no-null
+    .transform(value => (value === '' ? null : value)),
+})
+
+export const addParentTagSchema = z.object({
+  tag_id: z.string().length(12),
+  parent_tag_id: z.string().length(12),
+})

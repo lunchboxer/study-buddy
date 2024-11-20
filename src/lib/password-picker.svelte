@@ -9,7 +9,6 @@
       ? password.filter((item) => item !== text)
       : [...password, text].sort((a, b) => a.localeCompare(b))
   }
-  $: console.log(password)
 </script>
 
 <div class="grid grid-cols-4 gap-2 my-4">
