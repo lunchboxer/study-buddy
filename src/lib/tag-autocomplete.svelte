@@ -2,16 +2,18 @@
   import { onMount } from 'svelte'
 
   export let tags
-  export let name
+  export let name = 'tag_name'
+  export let idName = 'tag_id'
+  export let label = 'Select Tag'
 
   let inputValue = ''
   let isOpen = false
   let selectedTag
   let dropdownReference
 
-  $: filteredTags = tags
-    .filter((tag) => tag.name.toLowerCase().includes(inputValue.toLowerCase()))
-    .slice(0, 10)
+  $: filteredTags =
+    tags?.filter((tag) => tag.name.toLowerCase().includes(inputValue.toLowerCase())).slice(0, 10) ||
+    []
 
   const handleClickOutside = (event) => {
     if (dropdownReference && !dropdownReference.contains(event.target)) {
@@ -26,7 +28,7 @@
 
 <div class="form-control w-full max-w-xs relative" bind:this={dropdownReference}>
   <label class="label" for="tag-autocomplete">
-    <span class="label-text">Select Tag</span>
+    <span class="label-text">{label}</span>
   </label>
 
   <div class="relative w-full">
@@ -41,7 +43,7 @@
       on:input={() => (isOpen = true)}
     />
 
-    {#if isOpen && filteredTags.length > 0}
+    {#if isOpen && filteredTags?.length > 0}
       <div
         class="absolute top-full left-0 w-full z-50 mt-1
                bg-base-100 rounded-lg shadow-lg border border-base-300
@@ -67,8 +69,8 @@
     {/if}
   </div>
 
-  {#if selectedTag}
-    <input type="hidden" name="parent_tag_id" value={selectedTag.id} />
+  {#if selectedTag && selectedTag.name === inputValue}
+    <input type="hidden" name={idName} value={selectedTag.id} />
   {/if}
 </div>
 

@@ -35,4 +35,5 @@
 {/if}
 
 <h2>Add tag</h2>
+
 <AddWordTag />

@@ -186,6 +186,15 @@ export const wordTagUpdateSchema = wordTagCreateSchema.extend({
     .transform(value => (value === '' ? null : value)),
 })
 
+export const wordRemoveTagSchema = z.object({
+  id: z.string().length(12),
+})
+
+export const wordAttachTagSchema = z.object({
+  tag_name: z.string().min(1, { message: 'Tag name is required' }),
+  tag_id: z.string().length(12).optional(),
+})
+
 export const addParentTagSchema = z.object({
   tag_id: z.string().length(12),
   parent_tag_id: z.string().length(12),

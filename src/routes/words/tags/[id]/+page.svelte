@@ -29,7 +29,7 @@
 
 <Form action="?/addParentTag" submitLabel="Add" successUrl="/words/tags">
   <input type="hidden" name="tag_id" value={tag.id} />
-  <TagAutocomplete {tags} name="parent_tag_id" />
+  <TagAutocomplete {tags} name="parent_tag_name" idName="parent_tag_id" />
 </Form>
 
 <hr />
