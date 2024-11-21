@@ -98,23 +98,14 @@
           <th>#</th>
           <th>Word</th>
           <th>Tags</th>
-          <th>actions</th>
         </tr>
       </thead>
       <tbody>
         {#each filteredWords as word, index (word.id)}
           <tr>
             <th>{index + 1}</th>
-            <td>{word.word}</td>
+            <td><a href="/words/{word.id}">{word.word}</a></td>
             <td>{word.tags.map((t) => t.name).join(', ')}</td>
-            <td>
-              <button class="btn btn-xs btn-circle">
-                <Fa icon={faPencil} />
-              </button>
-              <button class="btn btn-xs btn-circle">
-                <Fa icon={faTrash} />
-              </button>
-            </td>
           </tr>
         {/each}
       </tbody>

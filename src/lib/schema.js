@@ -166,6 +166,13 @@ export const wordCreateSchema = z.object({
   newTagName: z.string().optional(),
 })
 
+export const wordUpdateSchema = z.object({
+  id: z.string().length(12),
+  word: z.string().min(1, { message: 'Words are required' }),
+  existingTagId: z.string().optional(),
+  newTagName: z.string().optional(),
+})
+
 export const wordTagCreateSchema = z.object({
   name: z.string().min(1, { message: 'Tag name is required' }),
 })

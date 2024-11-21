@@ -1,12 +1,12 @@
 import { client, sql } from '$lib/server/data'
 import { wordCreateSchema } from '$lib/schema'
-import { parseForm } from '$lib/server-utils'
+import { deleteAction, parseForm } from '$lib/server-utils'
 import { fail } from '@sveltejs/kit'
 import { nanoid } from 'nanoid'
 
 export const load = async () => {
   const result = await client.execute(sql`
-    SELECT 
+    SELECT
         w.id,
         w.word,
         json_group_array(
@@ -57,7 +57,7 @@ export const actions = {
         tagId = tagExistsResult.rows[0].id
       } else {
         const newTagQuery = sql`
-          INSERT INTO word_tag (id, name) VALUES (${tagId}, ${newTagName}) 
+          INSERT INTO word_tag (id, name) VALUES (${tagId}, ${newTagName})
           ON CONFLICT (name) DO NOTHING;
         `
         const newTagResult = await client.execute(newTagQuery)
@@ -102,26 +102,5 @@ export const actions = {
     return { success: true }
   },
 
-  //   delete: async ({ request }) => {
-  //     const { id } = await request.formData()
-  //     const deleteWordQuery = sql`
-  //       DELETE FROM word WHERE id = ${id};
-  //     `
-  //     const deleteWordResult = await client.execute(deleteWordQuery)
-  //     if (deleteWordResult.rowsAffected === 0) {
-  //       return fail(500, {
-  //         errors: { id: 'Could not delete word' },
-  //       })
-  //     }
-  //     return { success: true }
-  //   },
-  //   deleteTag: async ({ request }) => {
-  //     const { id } = await request.formData()
-  //     const deleteTagQuery = sql`
-  //       DELETE FROM word_tag WHERE id = ${id};
-  //     `
-  //     const deleteTagResult = await client.execute(deleteTagQuery)
-  //     if (deleteTag
-  // `
-  //   },
+  delete: async ({ request }) => deleteAction(request, 'word'),
 }
