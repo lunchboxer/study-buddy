@@ -7,7 +7,9 @@
   import TagAutocomplete from '$lib/tag-autocomplete.svelte'
 
   export let data
-  const { allTags } = data
+  $: otherTags = data.allTags?.filter((tag) => {
+    return !data.word?.tags?.some((wordTag) => wordTag.id === tag.id)
+  })
 </script>
 
 <Breadcrumbs crumbs={[{ name: 'Words', href: '/words' }, { name: data.word.word }]} />
@@ -44,7 +46,7 @@
 
 <h3>Add new or existing tag</h3>
 <Form action="?/attachTag" submitLabel="Attach" successMessage="Tag attached">
-  {#if allTags?.length > 0}
-    <TagAutocomplete tags={allTags} label="Tag" />
+  {#if otherTags?.length > 0}
+    <TagAutocomplete tags={otherTags} label="Tag" />
   {/if}
 </Form>

@@ -53,8 +53,8 @@
           goto(successUrl)
           return
         }
-        formComponent.reset()
-        formComponent.setAttribute('isValid', true)
+        formComponent?.reset()
+        formComponent?.setAttribute('isValid', true)
       }
     }
   }

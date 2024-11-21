@@ -36,7 +36,6 @@
       {name}
       id="tag-autocomplete"
       type="text"
-      placeholder="Type to search tags..."
       class="input input-bordered w-full"
       bind:value={inputValue}
       on:focus={() => (isOpen = true)}
@@ -49,7 +48,7 @@
                bg-base-100 rounded-lg shadow-lg border border-base-300
                max-h-60 overflow-y-auto"
       >
-        <ul class="menu menu-compact">
+        <ul class="menu">
           {#each filteredTags as tag}
             <li>
               <button
