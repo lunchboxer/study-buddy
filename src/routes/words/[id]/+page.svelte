@@ -23,12 +23,12 @@
 
 {#if data.word?.tags?.length > 0}
   <h3>Current tags</h3>
-  <Form action="?/removeTag" inline>
+  <Form action="?/removeTag" inline successMessage="Tag removed">
     <ul>
       {#each data.word?.tags as tag}
         <li>
           <a href="?/tags/{tag.id}">{tag.name}</a><button
-            class="btn btn-ghost btn-sm"
+            class="btn btn-ghost btn-xs btn-circle ml-2"
             name="id"
             value={tag.id}
           >
@@ -43,7 +43,7 @@
 {/if}
 
 <h3>Add new or existing tag</h3>
-<Form action="?/attachTag" submitLabel="Attach">
+<Form action="?/attachTag" submitLabel="Attach" successMessage="Tag attached">
   {#if allTags?.length > 0}
     <TagAutocomplete tags={allTags} label="Tag" />
   {/if}

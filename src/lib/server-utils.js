@@ -29,7 +29,6 @@ export function generateUpdateSql(data, tableName) {
 export async function parseForm(schema, request) {
   const formDataThing = await request.formData()
   const formDataObject = Object.fromEntries(formDataThing)
-  console.log(formDataObject)
   const parsedData = schema.safeParse(formDataObject)
 
   if (!parsedData.success) {
