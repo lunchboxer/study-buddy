@@ -1,9 +1,9 @@
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
 import { generateJWT, passwordMatches } from '$lib/crypto'
-import { client, sql } from '$lib/server/data'
 import { loginSchema, studentLoginSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
 import { fail, redirect } from '@sveltejs/kit'
 
 async function setCookie(cookies, userId) {
@@ -48,6 +48,11 @@ export const actions = {
         errors: { all: 'Student not found.' },
       })
     }
+
+    // Student accounts are simply not using secure passwords. They have picture passwords that
+    // are a combination of 16 images. Brute forcing would be trivial.
+    // The teacher needs access to the plaintext passwords to show the student how to log in.
+    // eslint-disable-next-line security/detect-possible-timing-attacks
     if (password !== user.password) {
       return fail(400, {
         ...formData,

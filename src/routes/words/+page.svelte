@@ -4,7 +4,6 @@
   import TextInput from '$lib/text-input.svelte'
   import Select from '$lib/select.svelte'
   import WordList from '$lib/word-list.svelte'
-  import AddWordTag from '$lib/add-word-tag.svelte'
 
   export let data
   let words = ''

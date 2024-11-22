@@ -5,10 +5,7 @@
   import { page } from '$app/stores'
   import Form from '$lib/form.svelte'
   import Fa from 'svelte-fa'
-  import {
-    faChildReaching,
-    faPersonChalkboard,
-  } from '@fortawesome/free-solid-svg-icons'
+  import { faChildReaching, faPersonChalkboard } from '@fortawesome/free-solid-svg-icons'
 
   const returnTo = $page?.url?.searchParams?.get('returnTo')
 
