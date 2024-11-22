@@ -8,7 +8,6 @@
   import {
     faChildReaching,
     faPersonChalkboard,
-    faArrowLeft,
   } from '@fortawesome/free-solid-svg-icons'
 
   const returnTo = $page?.url?.searchParams?.get('returnTo')

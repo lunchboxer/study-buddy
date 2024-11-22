@@ -1,7 +1,7 @@
 import { client, sql } from '$lib/server/data'
 import { error, fail } from '@sveltejs/kit'
 import { dev } from '$app/environment'
-import { wordNameUnique } from '$lib/server/validations'
+import { wordWordUnique } from '$lib/server/validations'
 import {
   wordUpdateSchema,
   wordRemoveTagSchema,
@@ -42,7 +42,7 @@ export const load = async ({ params }) => {
 export const actions = {
   delete: async ({ request }) => deleteAction(request, 'word'),
   update: async ({ request }) =>
-    updateAction(request, 'word', wordUpdateSchema, wordNameUnique),
+    updateAction(request, 'word', wordUpdateSchema, wordWordUnique),
   removeTag: async ({ request, params }) => {
     const wordId = params.id
     const formData = await parseForm(wordRemoveTagSchema, request)

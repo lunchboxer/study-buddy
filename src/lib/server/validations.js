@@ -31,14 +31,14 @@ const checkUniqueness = async ({
   }
 }
 
-export const subjectNameUnique = async ({ name }) => {
-  const sameNameSubjects = await client.execute(
-    sql`SELECT * FROM subject WHERE name = ${name};`,
-  )
-  if (sameNameSubjects?.rows?.length > 0) {
-    return { errors: { name: 'Name must be unique' } }
-  }
-}
+export const subjectNameUnique = async ({ name, id }) =>
+  checkUniqueness({
+    tableName: 'subject',
+    columnName: 'name',
+    value: name,
+    id,
+    errorMessage: 'Name must be unique',
+  })
 
 export const usernameUnique = async ({ username, id }) =>
   checkUniqueness({
@@ -58,26 +58,23 @@ export const roleNameUnique = async ({ name, id }) =>
     errorMessage: `A role named "${name}" already exists`,
   })
 
-export const wordTagNameUnique = async ({ name, id }) => {
-  const sameNameWordTags = await client.execute(
-    sql`SELECT * FROM word_tag WHERE name = ${name};`,
-  )
-  if (
-    sameNameWordTags?.rows?.length > 0 &&
-    id !== sameNameWordTags?.rows?.[0].id
-  ) {
-    return { errors: { name: `A tag named "${name}" already exists` } }
-  }
-}
+export const wordTagNameUnique = async ({ name, id }) =>
+  checkUniqueness({
+    tableName: 'word_tag',
+    columnName: 'name',
+    value: name,
+    id,
+    errorMessage: `A tag named "${name}" already exists`,
+  })
 
-export const wordWordUnique = async ({ word, id }) => {
-  const sameWordWords = await client.execute(
-    sql`SELECT id FROM word WHERE word = ${word};`,
-  )
-  if (sameWordWords?.rows?.length > 0 && id !== sameWordWords?.rows?.[0].id) {
-    return { errors: { name: `A word "${word}" already exists` } }
-  }
-}
+export const wordWordUnique = async ({ word, id }) =>
+  checkUniqueness({
+    tableName: 'word',
+    columnName: 'word',
+    value: word,
+    id,
+    errorMessage: `A word "${word}" already exists`,
+  })
 
 export const mustStartBeforeEnd = ({ start_date, end_date }) => {
   if (new Date(start_date) > new Date(end_date)) {

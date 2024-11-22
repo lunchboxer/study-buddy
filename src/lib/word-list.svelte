@@ -1,6 +1,6 @@
 <script>
   import Fa from 'svelte-fa'
-  import { faMagnifyingGlass, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons'
+  import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
   export let data
   let searchTerm = ''
