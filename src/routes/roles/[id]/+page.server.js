@@ -8,7 +8,7 @@ import { error, fail } from '@sveltejs/kit'
 export async function load({ params }) {
   const roleResult = await client.execute(
     sql`
-      SELECT 
+      SELECT
           r.id AS id,
           r.name AS name,
           json_group_array(
@@ -18,16 +18,16 @@ export async function load({ params }) {
                   'name', u.name
               )
           ) AS users
-      FROM 
+      FROM
           role r
-      LEFT JOIN 
+      LEFT JOIN
           user_role ur ON r.id = ur.role_id
-      LEFT JOIN 
+      LEFT JOIN
           user u ON ur.user_id = u.id
-      WHERE 
-          r.id = ${params.id};
-      GROUP BY 
-          r.id, r.name
+      WHERE
+          r.id = ${params.id}
+      GROUP BY
+          r.id, r.name;
     `,
   )
   if (!roleResult?.rows?.[0]) {
@@ -35,16 +35,16 @@ export async function load({ params }) {
   }
   const otherUsers = await client.execute(
     sql`
-      SELECT 
+      SELECT
         u.id AS id,
         u.username AS username,
         u.name AS name
-      FROM 
+      FROM
         user u
-      WHERE 
+      WHERE
         u.id NOT IN (SELECT user_id FROM user_role WHERE role_id = ${params.id})
-      ORDER BY 
-        u.username
+      ORDER BY
+        u.username;
     `,
   )
   const role = roleResult?.rows?.[0]
@@ -80,7 +80,7 @@ export const actions = {
     try {
       const result = await client.execute(
         sql`
-          INSERT INTO user_role (user_id, role_id) 
+          INSERT INTO user_role (user_id, role_id)
           VALUES (${formData.user_id}, ${formData.role_id});
         `,
       )

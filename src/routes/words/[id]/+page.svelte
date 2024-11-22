@@ -1,10 +1,10 @@
 <script>
   import Form from '$lib/form.svelte'
-  import Fa from 'svelte-fa'
-  import { faTimes } from '@fortawesome/free-solid-svg-icons'
   import TextInput from '$lib/text-input.svelte'
   import Breadcrumbs from '$lib/breadcrumbs.svelte'
   import TagAutocomplete from '$lib/tag-autocomplete.svelte'
+  import MinusIcon from '$lib/icons/minus-icon.svelte'
+  import DeleteModal from '$lib/delete-modal.svelte'
 
   export let data
   $: otherTags = data.allTags?.filter((tag) => {
@@ -30,11 +30,11 @@
       {#each data.word?.tags as tag}
         <li>
           <a href="?/tags/{tag.id}">{tag.name}</a><button
-            class="btn btn-ghost btn-xs btn-circle ml-2"
+            class="btn btn-xs ml-2"
             name="id"
             value={tag.id}
           >
-            <Fa icon={faTimes} />
+            <MinusIcon />
           </button>
         </li>
       {/each}
@@ -50,3 +50,7 @@
     <TagAutocomplete tags={otherTags} label="Tag" />
   {/if}
 </Form>
+
+<hr />
+
+<DeleteModal thingName="word" thing={data.word} name={data.word.word} />
