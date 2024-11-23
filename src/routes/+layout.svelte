@@ -25,7 +25,7 @@
     {#if $page?.url?.pathname !== '/login' && $page?.url?.pathname !== '/register' && $page?.url?.pathname !== '/s'}
       <Header me={data.me} bind:checked />
     {/if}
-    <main class="flex-grow mt-16 flex flex-col p-4 prose max-w-none md:px-16">
+    <main class="flex-grow mt-16 lg:mt-0 flex flex-col p-4 prose max-w-none md:px-16">
       <div class="flex-grow">
         <slot />
       </div>
