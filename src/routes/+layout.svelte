@@ -9,6 +9,7 @@
   import { page } from '$app/stores'
 
   export let data
+  let logoutModal
   let checked = ''
 
   $: themeSwitcher($theme)
@@ -24,14 +25,14 @@
     {#if $page?.url?.pathname !== '/login' && $page?.url?.pathname !== '/register' && $page?.url?.pathname !== '/s'}
       <Header me={data.me} bind:checked />
     {/if}
-    <main class="flex-grow flex flex-col p-4 prose max-w-none md:px-16">
+    <main class="flex-grow mt-16 flex flex-col p-4 prose max-w-none md:px-16">
       <div class="flex-grow">
         <slot />
       </div>
     </main>
     <Footer />
     <NotificationList />
-    <LogoutModal />
+    <LogoutModal bind:modal={logoutModal} />
   </div>
   {#if data?.me?.id && $page?.url?.pathname !== '/s'}
     <div class="drawer-side z-40">
@@ -47,7 +48,7 @@
           }}
           class="menu p-4 pt-20 m-0 lg:pt-4 fixed w-60 bg-base-300"
         >
-          <SidebarNav me={data.me} />
+          <SidebarNav me={data.me} {logoutModal} />
         </ul>
       </aside>
     </div>

@@ -3,6 +3,7 @@
   import { page } from '$app/stores'
 
   export let me
+  export let logoutModal
 </script>
 
 <div class="big-logo hidden lg:block py-8 text-center">
@@ -33,7 +34,11 @@
 <div class="divider">{me?.username}</div>
 {#if $page.url.pathname !== '/logout'}
   <li>
-    <button onclick="logoutmodal.showModal()">Log out</button>
+    <button
+      on:click={() => {
+        logoutModal.showModal()
+      }}>Log out</button
+    >
   </li>
 {/if}
 {#if $page.url.pathname !== '/profile'}

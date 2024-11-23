@@ -1,7 +1,8 @@
 <script>
   import Form from '$lib/form.svelte'
   import Modal from '$lib/modal.svelte'
-  let modal
+
+  export let modal
 </script>
 
 <Modal bind:modal id="logoutmodal" heading="Log out" message="We are going to miss you. 🫂">
