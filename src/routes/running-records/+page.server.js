@@ -25,7 +25,7 @@ export const load = async ({ locals }) => {
     FROM user
     JOIN student_to_group stg ON user.id = stg.student_id
     JOIN student_group sg ON stg.student_group_id = sg.id
-    WHERE user.active_school_year = ${activeSchoolYear}
+    WHERE sg.school_year_id = ${activeSchoolYear}
       AND user.archived = 0
     ORDER BY user.name;
   `)
