@@ -98,6 +98,7 @@
           <th>#</th>
           <th>Word</th>
           <th>Tags</th>
+          <th>Audio</th>
         </tr>
       </thead>
       <tbody>
@@ -106,6 +107,15 @@
             <th>{index + 1}</th>
             <td><a href="/words/{word.id}">{word.word}</a></td>
             <td>{word.tags.map((t) => t.name).join(', ')}</td>
+            <td>
+              {#if word.audio.length === 0}
+                <a href="/words/audio" class="link link-primary">Needs audio</a>
+              {:else}
+                <span class="text-success"
+                  >✓ Has {word.audio.length} recording{word.audio.length > 1 ? 's' : ''}</span
+                >
+              {/if}
+            </td>
           </tr>
         {/each}
       </tbody>

@@ -1,7 +1,7 @@
 // validations.js  extra validation functions
 // take formData object
 // return the error object { errors: { field: 'error message' } }
-import { client, sql } from '$lib/server/data'
+import { client } from '$lib/server/data'
 
 const checkUniqueness = async ({
   tableName,
@@ -15,7 +15,10 @@ const checkUniqueness = async ({
   const arguments_ = [value]
 
   // Execute the query
-  const existingRecords = await client.execute({ sql: query, args: arguments_ })
+  const existingRecords = await client.execute({
+    sql: query,
+    args: arguments_,
+  })
 
   // If records exist, check for uniqueness
   if (

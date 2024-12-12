@@ -1,10 +1,10 @@
 import { dev } from '$app/environment'
 import { JWT_SECRET } from '$env/static/private'
 import { generateJWT, hashPassword } from '$lib/crypto'
-import { client, sql } from '$lib/server/data'
-import { usernameUnique } from '$lib/server/validations'
 import { registerSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
+import { usernameUnique } from '$lib/server/validations'
 import { fail } from '@sveltejs/kit'
 import { nanoid } from 'nanoid'
 
@@ -29,7 +29,9 @@ export const actions = {
         `,
       )
       if (newUserResult.rowsAffected !== 1) {
-        return fail(500, { error: { all: 'Could not register new user' } })
+        return fail(500, {
+          error: { all: 'Could not register new user' },
+        })
       }
 
       const token = await generateJWT({ userId: id }, JWT_SECRET)

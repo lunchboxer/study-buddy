@@ -1,9 +1,9 @@
 import { dev } from '$app/environment'
 import { hashPassword } from '$lib/crypto'
-import { client, sql } from '$lib/server/data'
-import { usernameUnique } from '$lib/server/validations'
 import { userUpdatePasswordSchema, userUpdateSchema } from '$lib/schema'
 import { deleteAction, isAdminOrError, parseForm } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
+import { usernameUnique } from '$lib/server/validations'
 import { error, fail } from '@sveltejs/kit'
 
 export async function load({ params, locals }) {
@@ -59,11 +59,15 @@ export const actions = {
       `
       const result = await client.execute(query)
       if (result.rowsAffected === 0) {
-        return fail(500, { error: { all: 'Could not update user password.' } })
+        return fail(500, {
+          error: { all: 'Could not update user password.' },
+        })
       }
     } catch (error_) {
       dev && console.error(error_)
-      return fail(500, { error: { all: 'Could not update user password.' } })
+      return fail(500, {
+        error: { all: 'Could not update user password.' },
+      })
     }
   },
 
@@ -81,7 +85,10 @@ export const actions = {
       if (existingUserResult?.rows?.length === 0) {
         return fail(404, { error: { all: 'User not found' } })
       }
-      const errors = await usernameUnique({ username: formData.username, id })
+      const errors = await usernameUnique({
+        username: formData.username,
+        id,
+      })
       if (errors) {
         return fail(400, errors)
       }

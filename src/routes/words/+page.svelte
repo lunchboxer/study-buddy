@@ -12,6 +12,8 @@
       .split(/[\n,]+/)
       .map((word) => word.trim())
       .filter((word) => word.length > 0)
+
+  console.log(data)
 </script>
 
 <Breadcrumbs crumbs={[{ name: 'Words' }]} />

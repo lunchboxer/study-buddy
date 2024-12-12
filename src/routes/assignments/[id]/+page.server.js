@@ -1,6 +1,6 @@
-import { client, sql } from '$lib/server/data'
 import { assignmentUpdateSchema } from '$lib/schema'
 import { deleteAction, updateAction } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
 
 export const load = async ({ params }) => {
   const result = await client.execute(

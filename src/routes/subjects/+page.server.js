@@ -1,7 +1,7 @@
-import { client } from '$lib/server/data'
-import { subjectNameUnique } from '$lib/server/validations'
 import { subjectCreateSchema } from '$lib/schema'
 import { addAction } from '$lib/server-utils'
+import { client } from '$lib/server/data'
+import { subjectNameUnique } from '$lib/server/validations'
 
 /** @type {import('./$types').PageServerLoad} */
 export const load = async () => {

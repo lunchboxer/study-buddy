@@ -1,7 +1,7 @@
-import { client, sql } from '$lib/server/data'
-import { roleNameUnique } from '$lib/server/validations'
 import { roleCreateSchema } from '$lib/schema'
 import { addAction } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
+import { roleNameUnique } from '$lib/server/validations'
 
 export const load = async () => {
   const result = await client.execute(sql`SELECT * FROM role ORDER BY name;`)

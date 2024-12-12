@@ -1,8 +1,8 @@
 import { dev } from '$app/environment'
-import { client, sql } from '$lib/server/data'
-import { roleNameUnique } from '$lib/server/validations'
 import { roleUpdateSchema, userRoleSchema } from '$lib/schema'
 import { deleteAction, parseForm, updateAction } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
+import { roleNameUnique } from '$lib/server/validations'
 import { error, fail } from '@sveltejs/kit'
 
 export async function load({ params }) {
@@ -85,7 +85,9 @@ export const actions = {
         `,
       )
       if (result.rowsAffected === 0) {
-        return fail(500, { error: { all: 'Could not add user to role' } })
+        return fail(500, {
+          error: { all: 'Could not add user to role' },
+        })
       }
     } catch (error) {
       dev && console.error(error)

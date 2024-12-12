@@ -199,3 +199,9 @@ export const addParentTagSchema = z.object({
   tag_id: z.string().length(12),
   parent_tag_id: z.string().length(12),
 })
+
+export const wordAudioCreateSchema = z.object({
+  audio_url: z.string().url().min(1, { message: 'Audio URL is required' }),
+  type: z.string().optional(),
+  word_id: z.string().length(12),
+})

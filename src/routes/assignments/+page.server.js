@@ -1,6 +1,6 @@
-import { client, sql } from '$lib/server/data'
 import { assignmentCreateSchema } from '$lib/schema'
 import { addAction } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
 
 export const load = async ({ locals }) => {
   const { active_school_year } = locals.user

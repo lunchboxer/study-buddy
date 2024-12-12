@@ -3,9 +3,9 @@ import {
   CLOUDINARY_API_SECRET,
   CLOUDINARY_CLOUD_NAME,
 } from '$env/static/private'
+import { generateUploadSignature } from '$lib/crypto'
 import { client, sql } from '$lib/server/data'
 import { error, redirect } from '@sveltejs/kit'
-import { generateUploadSignature } from '$lib/crypto'
 
 export async function load({ url }) {
   const studentId = url.searchParams.get('studentId')

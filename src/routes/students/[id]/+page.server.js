@@ -1,11 +1,11 @@
 import { dev } from '$app/environment'
-import { client, sql } from '$lib/server/data'
 import {
   addStudentToGroupSchema,
   studentUpdateSchema,
   toggleArchiveStudentSchema,
 } from '$lib/schema'
 import { parseForm, updateAction } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
 import { error } from '@sveltejs/kit'
 import { fail } from '@sveltejs/kit'
 
@@ -65,12 +65,16 @@ export const actions = {
         `,
       )
       if (addGroupResult.rowsAffected === 0) {
-        return fail(500, { errors: { all: 'Could not add group to student' } })
+        return fail(500, {
+          errors: { all: 'Could not add group to student' },
+        })
       }
       return { success: true }
     } catch (error) {
       dev && console.error(error)
-      return fail(500, { errors: { all: 'Could not add group to student' } })
+      return fail(500, {
+        errors: { all: 'Could not add group to student' },
+      })
     }
   },
   removeFromGroup: async ({ request }) => {
@@ -109,7 +113,9 @@ export const actions = {
         sql`UPDATE user SET archived = ${formData.archived} WHERE id = ${formData.student_id};`,
       )
       if (result.rowsAffected === 0) {
-        return fail(500, { errors: { all: 'Could not update student' } })
+        return fail(500, {
+          errors: { all: 'Could not update student' },
+        })
       }
       return { success: true }
     } catch (error) {

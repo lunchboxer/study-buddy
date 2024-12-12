@@ -10,5 +10,6 @@ yarn.lock
 *.ts
 *.html
 *.min.css
+*.css
 
 .cloudflare
