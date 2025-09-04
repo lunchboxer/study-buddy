@@ -65,12 +65,16 @@ export const actions = {
         `,
       )
       if (addGroupResult.rowsAffected === 0) {
-        return fail(500, { errors: { all: 'Could not add group to student' } })
+        return fail(500, {
+          errors: { all: 'Could not add group to student' },
+        })
       }
       return { success: true }
     } catch (error) {
       dev && console.error(error)
-      return fail(500, { errors: { all: 'Could not add group to student' } })
+      return fail(500, {
+        errors: { all: 'Could not add group to student' },
+      })
     }
   },
   removeFromGroup: async ({ request }) => {
@@ -109,7 +113,9 @@ export const actions = {
         sql`UPDATE user SET archived = ${formData.archived} WHERE id = ${formData.student_id};`,
       )
       if (result.rowsAffected === 0) {
-        return fail(500, { errors: { all: 'Could not update student' } })
+        return fail(500, {
+          errors: { all: 'Could not update student' },
+        })
       }
       return { success: true }
     } catch (error) {

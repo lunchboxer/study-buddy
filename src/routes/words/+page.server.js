@@ -19,12 +19,18 @@ export const load = async () => {
       FROM word w
       LEFT JOIN word_tag_to_word wttw ON w.id = wttw.word_id
       LEFT JOIN word_tag wt ON wttw.word_tag_id = wt.id
+      LEFT JOIN word_audio wa ON w.id = wa.word_id
       GROUP BY w.id
   `)
 
   const words = result?.rows || []
   for (const word of words) {
-    word.tags = JSON.parse(word.tags).filter(tag => tag.id !== null)
+    word.tags = word.tags
+      ? JSON.parse(word.tags).filter(tag => tag.id !== null)
+      : []
+    word.audio = word.audio
+      ? JSON.parse(word.audio).filter(audio => audio !== null)
+      : []
   }
   const tagsResult = await client.execute(
     sql`SELECT * FROM word_tag ORDER BY name;`,

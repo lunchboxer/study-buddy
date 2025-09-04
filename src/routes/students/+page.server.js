@@ -85,7 +85,7 @@ export const actions = {
         WHERE name = 'student'
       `
       const roleResult = await client.execute(roleQuery)
-      const roleId = roleResult.rows[0].id
+      const roleId = roleResult?.rows[0]?.id
       const studentRoleId = roleId || nanoid(12)
 
       if (!roleId) {

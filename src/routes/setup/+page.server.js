@@ -21,7 +21,9 @@ export const actions = {
       )} WHERE id = ${locals.user.id};`,
     )
     if (result.rowsAffected === 0) {
-      return fail(500, { errors: { all: 'Could not set active school year' } })
+      return fail(500, {
+        errors: { all: 'Could not set active school year' },
+      })
     }
     return { success: true }
   },

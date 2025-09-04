@@ -85,7 +85,9 @@ export const actions = {
         `,
       )
       if (result.rowsAffected === 0) {
-        return fail(500, { error: { all: 'Could not add user to role' } })
+        return fail(500, {
+          error: { all: 'Could not add user to role' },
+        })
       }
     } catch (error) {
       dev && console.error(error)

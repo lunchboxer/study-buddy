@@ -29,7 +29,9 @@ export const actions = {
         `,
       )
       if (newUserResult.rowsAffected !== 1) {
-        return fail(500, { error: { all: 'Could not register new user' } })
+        return fail(500, {
+          error: { all: 'Could not register new user' },
+        })
       }
 
       const token = await generateJWT({ userId: id }, JWT_SECRET)

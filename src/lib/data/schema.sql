@@ -122,6 +122,17 @@ CREATE INDEX parent_tag_id_index ON word_tag (parent_tag_id);
 CREATE INDEX word_tag_order_index ON word_tag (parent_tag_id, order_index);
 CREATE INDEX word_tag_to_word_order_index ON word_tag_to_word (word_tag_id, order_index);
 
+CREATE TABLE word_audio (
+    id TEXT PRIMARY KEY NOT NULL,
+    word_id TEXT NOT NULL,
+    audio_url TEXT NOT NULL,
+    type TEXT, -- e.g. super-slow, segmented
+    speaker_id TEXT NOT NULL,
+    created TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    FOREIGN KEY (speaker_id) REFERENCES user(id) ON UPDATE no action ON DELETE no action,
+    FOREIGN KEY (word_id) REFERENCES word(id) ON UPDATE no action ON DELETE cascade
+);
+
 CREATE TABLE running_record_text (
   id TEXT PRIMARY KEY NOT NULL,
   title TEXT NOT NULL,

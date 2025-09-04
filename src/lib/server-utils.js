@@ -167,7 +167,9 @@ export const userHasRole = async (userId, roleName) => {
 export const isAdminOrFail = async userId => {
   const isAdmin = await userHasRole(userId, 'admin')
   if (!isAdmin) {
-    return fail(403, { errors: { all: 'You must be an admin to do that.' } })
+    return fail(403, {
+      errors: { all: 'You must be an admin to do that.' },
+    })
   }
 }
 

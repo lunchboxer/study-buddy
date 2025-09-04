@@ -14,7 +14,7 @@ export async function load({ url }) {
     return redirect(302, '/running-records')
   }
   const studentResult = await client.execute(
-    sql`SELECT * FROM student WHERE id = ${studentId};`,
+    sql`SELECT * FROM user WHERE id = ${studentId};`,
   )
   if (!studentResult?.rows?.[0]) {
     return error(404, 'Student not found')

@@ -36,5 +36,12 @@
         "noDefaultExport": "off"
       }
     }
+  },
+  "css": {
+    "formatter": {
+      "enabled": true,
+      "indentStyle": "space",
+      "indentWidth": 2
+    }
   }
 }
