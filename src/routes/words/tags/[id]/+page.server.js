@@ -1,8 +1,8 @@
+import { addParentTagSchema, wordTagUpdateSchema } from '$lib/schema'
+import { deleteAction, parseForm, updateAction } from '$lib/server-utils'
 import { client, sql } from '$lib/server/data'
-import { error, fail } from '@sveltejs/kit'
-import { wordTagUpdateSchema, addParentTagSchema } from '$lib/schema'
 import { wordTagNameUnique } from '$lib/server/validations'
-import { deleteAction, updateAction, parseForm } from '$lib/server-utils'
+import { error, fail } from '@sveltejs/kit'
 
 export const load = async ({ params }) => {
   const tagId = params.id

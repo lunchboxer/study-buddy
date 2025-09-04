@@ -1,13 +1,13 @@
-import { client, sql } from '$lib/server/data'
-import { error, fail } from '@sveltejs/kit'
 import { dev } from '$app/environment'
-import { wordWordUnique } from '$lib/server/validations'
 import {
-  wordUpdateSchema,
-  wordRemoveTagSchema,
   wordAttachTagSchema,
+  wordRemoveTagSchema,
+  wordUpdateSchema,
 } from '$lib/schema'
-import { deleteAction, updateAction, parseForm } from '$lib/server-utils'
+import { deleteAction, parseForm, updateAction } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
+import { wordWordUnique } from '$lib/server/validations'
+import { error, fail } from '@sveltejs/kit'
 import { nanoid } from 'nanoid'
 
 export const load = async ({ params }) => {

@@ -1,7 +1,7 @@
 import { dev } from '$app/environment'
-import { client, sql } from '$lib/server/data'
 import { userRoleSchema } from '$lib/schema'
 import { parsePost } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
 import { error, json } from '@sveltejs/kit'
 
 /** @type {import('./$types').RequestHandler} */

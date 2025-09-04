@@ -1,10 +1,10 @@
 import { dev } from '$app/environment'
-import { client, sql, executeBatch } from '$lib/server/data'
+import { PASSWORD_OPTIONS } from '$lib/constants'
 import { studentCreateSchema } from '$lib/schema'
 import { parseForm } from '$lib/server-utils'
+import { client, executeBatch, sql } from '$lib/server/data'
 import { fail } from '@sveltejs/kit'
 import { nanoid } from 'nanoid'
-import { PASSWORD_OPTIONS } from '$lib/constants'
 
 function generateUsername(name) {
   const parts = name.toLowerCase().split(' ')

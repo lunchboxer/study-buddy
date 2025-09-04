@@ -1,6 +1,6 @@
-import { client, sql } from '$lib/server/data'
 import { runningRecordUpdateSchema } from '$lib/schema'
 import { deleteAction, updateAction } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
 import { error } from '@sveltejs/kit'
 
 export async function load({ params, locals }) {

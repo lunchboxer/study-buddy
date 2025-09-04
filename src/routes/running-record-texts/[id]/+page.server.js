@@ -1,6 +1,6 @@
-import { client, sql } from '$lib/server/data'
 import { runningRecordTextUpdateSchema } from '$lib/schema'
 import { deleteAction, updateAction } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
 
 export async function load({ params }) {
   const runningRecordTextResult = await client.execute(

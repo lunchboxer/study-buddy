@@ -1,6 +1,6 @@
-import { client, sql } from '$lib/server/data'
 import { wordCreateSchema } from '$lib/schema'
 import { deleteAction, parseForm } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
 import { fail } from '@sveltejs/kit'
 import { nanoid } from 'nanoid'
 

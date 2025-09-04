@@ -1,7 +1,7 @@
-import { client, sql } from '$lib/server/data'
-import { subjectNameUnique } from '$lib/server/validations'
 import { subjectUpdateSchema } from '$lib/schema'
 import { deleteAction, updateAction } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
+import { subjectNameUnique } from '$lib/server/validations'
 
 export async function load({ params }) {
   const result = await client.execute(

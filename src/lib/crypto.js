@@ -119,6 +119,7 @@ export async function verifyAndDecodeJWT(jwt, secretKey) {
   }
   throw new Error('JWT verification failed')
 }
+
 function base64UrlToUint8Array(base64UrlString) {
   const base64String = base64UrlString.replaceAll('-', '+').replaceAll('_', '/')
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)

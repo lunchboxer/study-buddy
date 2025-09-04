@@ -1,7 +1,7 @@
-import { client, sql } from '$lib/server/data'
-import { mustStartBeforeEnd } from '$lib/server/validations'
 import { schoolYearUpdateSchema } from '$lib/schema'
 import { deleteAction, updateAction } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
+import { mustStartBeforeEnd } from '$lib/server/validations'
 import { error } from '@sveltejs/kit'
 
 /** @type {import('./$types').PageServerLoad} */

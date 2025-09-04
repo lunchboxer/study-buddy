@@ -1,8 +1,8 @@
 import { hashPassword } from '$lib/crypto'
-import { client, sql } from '$lib/server/data'
-import { usernameUnique } from '$lib/server/validations'
 import { userCreateSchema } from '$lib/schema'
 import { isAdminOrError, isAdminOrFail, parseForm } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
+import { usernameUnique } from '$lib/server/validations'
 import { fail } from '@sveltejs/kit'
 import { nanoid } from 'nanoid'
 

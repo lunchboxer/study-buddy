@@ -1,11 +1,11 @@
 import { dev } from '$app/environment'
-import { client, sql } from '$lib/server/data'
 import {
   addStudentToGroupSchema,
   studentUpdateSchema,
   toggleArchiveStudentSchema,
 } from '$lib/schema'
 import { parseForm, updateAction } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
 import { error } from '@sveltejs/kit'
 import { fail } from '@sveltejs/kit'
 

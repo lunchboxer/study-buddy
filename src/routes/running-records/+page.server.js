@@ -1,6 +1,6 @@
-import { client, sql } from '$lib/server/data'
 import { runningRecordCreateSchema } from '$lib/schema'
 import { addAction } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
 
 export const load = async ({ locals }) => {
   const activeSchoolYear = locals?.user?.active_school_year

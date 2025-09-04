@@ -1,9 +1,9 @@
 import { dev } from '$app/environment'
 import { hashPassword } from '$lib/crypto'
-import { client, sql } from '$lib/server/data'
-import { usernameUnique } from '$lib/server/validations'
 import { userUpdatePasswordSchema, userUpdateSchema } from '$lib/schema'
 import { deleteAction, isAdminOrError, parseForm } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
+import { usernameUnique } from '$lib/server/validations'
 import { error, fail } from '@sveltejs/kit'
 
 export async function load({ params, locals }) {

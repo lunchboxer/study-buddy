@@ -1,9 +1,9 @@
-import { client, sql } from '$lib/server/data'
 import { dev } from '$app/environment'
 import { wordTagCreateSchema } from '$lib/schema'
+import { parseForm } from '$lib/server-utils'
+import { client, sql } from '$lib/server/data'
 import { fail } from '@sveltejs/kit'
 import { nanoid } from 'nanoid'
-import { parseForm } from '$lib/server-utils'
 
 export const load = async () => {
   const tagsResult = await client.execute(sql`
